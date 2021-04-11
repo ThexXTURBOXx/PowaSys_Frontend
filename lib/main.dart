@@ -37,7 +37,7 @@ class _ThemeState extends State<ThemeWidget> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'PowaSys Frontend',
       theme: lightTheme,
       debugShowCheckedModeBanner: false,
       darkTheme: darkTheme,
