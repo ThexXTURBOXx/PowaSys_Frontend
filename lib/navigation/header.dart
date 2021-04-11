@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:powasys_frontend/i18n/i18n.dart';
 
 class Logo extends StatelessWidget {
   @override
@@ -40,7 +41,7 @@ class PopMenu extends StatelessWidget {
     return PopupMenuButton<String>(
       onSelected: (d) {
         switch (d) {
-          case 'License':
+          case 'license':
             showLicensePage(
               context: context,
               applicationVersion: packageInfo.version,
@@ -55,9 +56,9 @@ class PopMenu extends StatelessWidget {
       },
       itemBuilder: (BuildContext context) {
         return [
-          const PopupMenuItem(
-            value: 'License',
-            child: Text('License'),
+          PopupMenuItem(
+            value: 'license',
+            child: Text(format(context, 'license')),
           ),
         ];
       },

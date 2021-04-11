@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:powasys_frontend/config/config.dart';
+import 'package:powasys_frontend/i18n/i18n.dart';
 import 'package:powasys_frontend/navigation/footer.dart';
 import 'package:powasys_frontend/navigation/header.dart';
 
@@ -41,11 +42,16 @@ class _HomeState extends State<Home> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              DataTable(columns: const [
+              DataTable(columns: [
+                const DataColumn(
+                  label: Center(
+                    child: Text(''),
+                  ),
+                ),
                 DataColumn(
                   label: Center(
                     child: Text(
-                      '',
+                      format(context, 'voltage'),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -53,7 +59,7 @@ class _HomeState extends State<Home> {
                 DataColumn(
                   label: Center(
                     child: Text(
-                      'Spannung',
+                      format(context, 'current'),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -61,7 +67,7 @@ class _HomeState extends State<Home> {
                 DataColumn(
                   label: Center(
                     child: Text(
-                      'Stärke',
+                      format(context, 'power'),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -69,15 +75,7 @@ class _HomeState extends State<Home> {
                 DataColumn(
                   label: Center(
                     child: Text(
-                      'Leistung',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-                DataColumn(
-                  label: Center(
-                    child: Text(
-                      'Temparatur',
+                      format(context, 'temperature'),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -89,7 +87,7 @@ class _HomeState extends State<Home> {
                       Container(
                         alignment: Alignment.centerRight,
                         child: Text(
-                          'Derzeit (${DateTime.now()}):',
+                          format(context, 'currently', ['${DateTime.now()}']),
                           textAlign: TextAlign.end,
                         ),
                       ),
@@ -97,7 +95,10 @@ class _HomeState extends State<Home> {
                     DataCell(
                       Center(
                         child: Text(
-                          '${_counter + 1} V',
+                          format(context, 'amount_format', [
+                            '${_counter + 1}',
+                            format(context, 'voltage_unit')
+                          ]),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -105,7 +106,10 @@ class _HomeState extends State<Home> {
                     DataCell(
                       Center(
                         child: Text(
-                          '${_counter + 1} A',
+                          format(context, 'amount_format', [
+                            '${_counter + 1}',
+                            format(context, 'current_unit')
+                          ]),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -113,7 +117,10 @@ class _HomeState extends State<Home> {
                     DataCell(
                       Center(
                         child: Text(
-                          '${_counter + 1} W',
+                          format(context, 'amount_format', [
+                            '${_counter + 1}',
+                            format(context, 'power_unit')
+                          ]),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -121,7 +128,10 @@ class _HomeState extends State<Home> {
                     DataCell(
                       Center(
                         child: Text(
-                          '${_counter + 1} °C',
+                          format(context, 'amount_format', [
+                            '${_counter + 1}',
+                            format(context, 'temperature_unit')
+                          ]),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -133,8 +143,8 @@ class _HomeState extends State<Home> {
                     DataCell(
                       Container(
                         alignment: Alignment.centerRight,
-                        child: const Text(
-                          'Durchschnitt:',
+                        child: Text(
+                          format(context, 'average'),
                           textAlign: TextAlign.end,
                         ),
                       ),
@@ -142,7 +152,10 @@ class _HomeState extends State<Home> {
                     DataCell(
                       Center(
                         child: Text(
-                          '${_counter + 1} V',
+                          format(context, 'amount_format', [
+                            '${_counter + 2}',
+                            format(context, 'voltage_unit')
+                          ]),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -150,7 +163,10 @@ class _HomeState extends State<Home> {
                     DataCell(
                       Center(
                         child: Text(
-                          '${_counter + 1} A',
+                          format(context, 'amount_format', [
+                            '${_counter + 2}',
+                            format(context, 'current_unit')
+                          ]),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -158,7 +174,10 @@ class _HomeState extends State<Home> {
                     DataCell(
                       Center(
                         child: Text(
-                          '${_counter + 1} W',
+                          format(context, 'amount_format', [
+                            '${_counter + 2}',
+                            format(context, 'power_unit')
+                          ]),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -166,7 +185,10 @@ class _HomeState extends State<Home> {
                     DataCell(
                       Center(
                         child: Text(
-                          '${_counter + 1} °C',
+                          format(context, 'amount_format', [
+                            '${_counter + 2}',
+                            format(context, 'temperature_unit')
+                          ]),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -193,7 +215,10 @@ class _HomeState extends State<Home> {
                           getTooltipItems: (touchedSpots) {
                             return touchedSpots
                                 .map((spot) => LineTooltipItem(
-                                    '${spot.y} ${getUnit(spot.barIndex)}',
+                                    format(context, 'amount_format', [
+                                      '${spot.y}',
+                                      format(context, getUnit(spot.barIndex)),
+                                    ]),
                                     TextStyle(
                                       color: spot.bar.colors[0],
                                       fontWeight: FontWeight.bold,
@@ -299,15 +324,16 @@ class _HomeState extends State<Home> {
   }
 
   String getUnit(int index) {
-    return index == 0
-        ? 'V'
-        : index == 1
-            ? 'A'
-            : index == 2
-                ? 'W'
-                : index == 3
-                    ? '°C'
-                    : '';
+    switch (index) {
+      case 0:
+        return 'voltage_unit';
+      case 1:
+        return 'current_unit';
+      case 2:
+        return 'power_unit';
+      default:
+        return 'temperature_unit';
+    }
   }
 
   List<LineChartBarData> linesBarData() {

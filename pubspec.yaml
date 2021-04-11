@@ -29,6 +29,9 @@ dependencies:
   fl_chart: ^0.35.0
   flutter:
     sdk: flutter
+  flutter_bloc: ^7.0.0
+  flutter_localizations:
+    sdk: flutter
   hive: ^2.0.2
   hive_flutter: ^1.0.0
   package_info_plus: ^1.0.0
@@ -36,6 +39,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  sprintf: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
