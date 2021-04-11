@@ -23,7 +23,7 @@ class LanguageChooserState extends State<LanguageChooser> {
             (lang) => DropdownMenuItem(
               value: lang,
               child: Row(
-                children: <Widget>[
+                children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Flag(

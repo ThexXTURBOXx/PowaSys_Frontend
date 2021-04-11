@@ -13,10 +13,30 @@ class Footer extends StatelessWidget {
       color: theme.primaryColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
+        children: [
           Padding(
             padding: const EdgeInsets.all(20),
             child: Text(format(context, 'copyright')),
+          ),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: TextButton.icon(
+                  onPressed: () {},
+                  icon: const Icon(Icons.article_outlined),
+                  label: Text(format(context, 'imprint')),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: TextButton.icon(
+                  onPressed: () {},
+                  icon: const Icon(Icons.alternate_email),
+                  label: Text(format(context, 'contact')),
+                ),
+              ),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),

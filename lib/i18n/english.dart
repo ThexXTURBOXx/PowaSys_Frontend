@@ -5,6 +5,9 @@ import 'package:powasys_frontend/i18n/i18n.dart';
 const Map<String, String> _dict = {
   'app_name': 'PowaSys Frontend',
   'copyright': '\u00a9 2021 Nico Mexis',
+  'home': 'Home',
+  'imprint': 'Imprint',
+  'contact': 'Contact',
   'license': 'Licenses',
   'voltage': 'Voltage',
   'current': 'Current',

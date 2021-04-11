@@ -6,8 +6,9 @@ import 'package:powasys_frontend/i18n/i18n.dart';
 class Logo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Icons.psychology_outlined),
+    return TextButton.icon(
+      icon: const Icon(Icons.code),
+      label: Text(format(context, 'app_name')),
       onPressed: () {
         if (ModalRoute.of(context)!.settings.name != '/') {
           Navigator.pushReplacementNamed(context, '/');
@@ -20,8 +21,9 @@ class Logo extends StatelessWidget {
 class HomeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return IconButton(
+    return TextButton.icon(
       icon: const Icon(Icons.home_outlined),
+      label: Text(format(context, 'home')),
       onPressed: () {
         if (ModalRoute.of(context)!.settings.name != '/') {
           Navigator.pushReplacementNamed(context, '/');
@@ -39,6 +41,14 @@ class PopMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<String>(
+      icon: Icon(
+        Icons.more_vert,
+        color: Theme.of(context)
+            .textButtonTheme
+            .style!
+            .foregroundColor!
+            .resolve({MaterialState.focused})!,
+      ),
       onSelected: (d) {
         switch (d) {
           case 'license':
@@ -46,6 +56,10 @@ class PopMenu extends StatelessWidget {
               context: context,
               applicationVersion: packageInfo.version,
               // TODO(Nico): Icon?
+              applicationIcon: const Icon(
+                Icons.code,
+                size: 50,
+              ),
               /*applicationIcon: Image.asset(
                         'assets/logo.png',
                         width: 50,
