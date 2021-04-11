@@ -3,25 +3,27 @@ import 'package:powasys_frontend/i18n/english.dart';
 import 'package:powasys_frontend/i18n/german.dart';
 import 'package:sprintf/sprintf.dart';
 
-const FALLBACK_LANGUAGE = 'en';
+const FALLBACK_LANGUAGE = English.CODE;
 
 const Map<String, Language> languages = {
-  'en': English(),
-  'de': German(),
+  English.CODE: English(),
+  German.CODE: German(),
 };
 
-final fallback = languages[FALLBACK_LANGUAGE]!;
+final fallbackLanguage = languages[FALLBACK_LANGUAGE]!;
 
 String format(BuildContext? ctx, dynamic id,
     [List<dynamic> options = const []]) {
-  final lang = ctx == null ? fallback : _getCurrentLanguage(ctx) ?? fallback;
-  final trans = lang.dict[id] ?? fallback.dict[id]!;
+  final lang = ctx == null
+      ? fallbackLanguage
+      : _getCurrentLanguage(ctx) ?? fallbackLanguage;
+  final trans = lang.dict[id] ?? fallbackLanguage.dict[id]!;
   return sprintf(trans, options);
 }
 
 String formatIn(String lang, dynamic id, [List<dynamic> options = const []]) {
-  final langObj = _getLanguage(lang) ?? fallback;
-  final trans = langObj.dict[id] ?? fallback.dict[id]!;
+  final langObj = _getLanguage(lang) ?? fallbackLanguage;
+  final trans = langObj.dict[id] ?? fallbackLanguage.dict[id]!;
   return sprintf(trans, options);
 }
 
@@ -35,6 +37,10 @@ Language? _getLanguage(String id) {
 
 class Language {
   final Map<dynamic, String> dict;
+  final String code;
+  final Locale locale;
+  final String name;
+  final String flag;
 
-  const Language(this.dict);
+  const Language(this.dict, this.code, this.locale, this.name, this.flag);
 }

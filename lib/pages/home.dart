@@ -33,9 +33,7 @@ class _HomeState extends State<Home> {
           PopMenu(packageInfo),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: getFooterItems(),
-      ),
+      bottomNavigationBar: Footer(),
       body: Scrollbar(
         isAlwaysShown: true,
         child: SingleChildScrollView(
@@ -196,14 +194,6 @@ class _HomeState extends State<Home> {
                   ],
                 ),
               ]),
-              Switch(
-                value: themeSettings.isDark,
-                onChanged: (state) {
-                  setState(() {
-                    themeSettings.setTheme(!themeSettings.isDark);
-                  });
-                },
-              ),
               SizedBox(
                 height: 300,
                 child: Padding(
@@ -314,11 +304,11 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            _counter++;
+            themeSettings.setTheme(!themeSettings.isDark);
           });
         },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        tooltip: format(context, 'switch_theme'),
+        child: const Icon(Icons.brightness_medium),
       ),
     );
   }

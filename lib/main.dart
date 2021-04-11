@@ -12,26 +12,29 @@ late PackageInfo packageInfo;
 Future<void> main() async {
   await initConfig();
   packageInfo = await PackageInfo.fromPlatform();
-  runApp(MyApp());
+  runApp(PowaSysFrontend());
 }
 
-class MyApp extends StatelessWidget {
+class PowaSysFrontend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ThemeWidget();
+    return PowaSysFrontendAppWidget();
   }
 }
 
-class ThemeWidget extends StatefulWidget {
+class PowaSysFrontendAppWidget extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _ThemeState();
+  State<StatefulWidget> createState() => _PowaSysFrontendAppWidgetState();
 }
 
-class _ThemeState extends State<ThemeWidget> {
+class _PowaSysFrontendAppWidgetState extends State<PowaSysFrontendAppWidget> {
   @override
   void initState() {
     super.initState();
     themeSettings.addListener(() {
+      setState(() {});
+    });
+    localeSettings.addListener(() {
       setState(() {});
     });
   }
@@ -40,18 +43,19 @@ class _ThemeState extends State<ThemeWidget> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: format(null, 'app_name'),
-      theme: lightTheme,
       debugShowCheckedModeBanner: false,
+      theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: themeSettings.currentTheme,
+      locale: localeSettings.currentLocale,
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
-        Locale('en', ''),
-        Locale('de', ''),
+        Locale('en'),
+        Locale('de'),
       ],
       initialRoute: '/',
       routes: {
