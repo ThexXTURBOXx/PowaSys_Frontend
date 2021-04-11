@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+
 enum Trend {
   VOLTAGE,
   CURRENT,
@@ -29,6 +32,19 @@ extension TrendMeta on Trend {
         return 'power_unit';
       case Trend.TEMPERATURE:
         return 'temperature_unit';
+    }
+  }
+
+  Color get color {
+    switch (this) {
+      case Trend.VOLTAGE:
+        return Colors.indigo;
+      case Trend.CURRENT:
+        return Colors.lightBlueAccent;
+      case Trend.POWER:
+        return Colors.deepOrangeAccent;
+      case Trend.TEMPERATURE:
+        return Colors.greenAccent;
     }
   }
 }

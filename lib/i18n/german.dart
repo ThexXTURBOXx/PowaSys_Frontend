@@ -21,6 +21,7 @@ const Map<String, String> _dict = {
   'power_unit': 'W',
   'temperature_unit': '°C',
   'switch_theme': 'Thema wechseln',
+  'refresh': 'Neu laden',
 };
 
 class German extends Language {

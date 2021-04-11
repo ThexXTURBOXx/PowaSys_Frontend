@@ -18,16 +18,16 @@ Future<void> main() async {
 class PowaSysFrontend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return PowaSysFrontendAppWidget();
+    return PowaSysFrontendWidget();
   }
 }
 
-class PowaSysFrontendAppWidget extends StatefulWidget {
+class PowaSysFrontendWidget extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _PowaSysFrontendAppWidgetState();
+  State<StatefulWidget> createState() => _PowaSysFrontendWidgetState();
 }
 
-class _PowaSysFrontendAppWidgetState extends State<PowaSysFrontendAppWidget> {
+class _PowaSysFrontendWidgetState extends State<PowaSysFrontendWidget> {
   @override
   void initState() {
     super.initState();

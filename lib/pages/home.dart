@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:powasys_frontend/config/config.dart';
+import 'package:powasys_frontend/bloc/blocs/data_bloc.dart';
+import 'package:powasys_frontend/bloc/events/data_events.dart';
 import 'package:powasys_frontend/data/trend_diagram.dart';
 import 'package:powasys_frontend/data/trend_table.dart';
 import 'package:powasys_frontend/i18n/i18n.dart';
@@ -18,9 +19,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final DataBloc _bloc = DataBloc();
   final PackageInfo packageInfo;
 
-  _HomeState(this.packageInfo);
+  _HomeState(this.packageInfo) {
+    _bloc.add(FetchData());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +51,10 @@ class _HomeState extends State<Home> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          setState(() {
-            themeSettings.setTheme(!themeSettings.isDark);
-          });
+          _bloc.add(FetchData());
         },
-        tooltip: format(context, 'switch_theme'),
-        child: const Icon(Icons.brightness_medium),
+        tooltip: format(context, 'refresh'),
+        child: const Icon(Icons.refresh),
       ),
     );
   }

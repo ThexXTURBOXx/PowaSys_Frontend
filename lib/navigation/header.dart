@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:powasys_frontend/config/config.dart';
 import 'package:powasys_frontend/i18n/i18n.dart';
 
 class Logo extends StatelessWidget {
@@ -40,7 +41,7 @@ class PopMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<String>(
+    return PopupMenuButton<PopupItems>(
       icon: Icon(
         Icons.more_vert,
         color: Theme.of(context)
@@ -51,7 +52,7 @@ class PopMenu extends StatelessWidget {
       ),
       onSelected: (d) {
         switch (d) {
-          case 'license':
+          case PopupItems.LICENSE:
             showLicensePage(
               context: context,
               applicationVersion: packageInfo.version,
@@ -66,16 +67,28 @@ class PopMenu extends StatelessWidget {
                       ),*/
             );
             break;
+          case PopupItems.THEME:
+            themeSettings.setTheme(!themeSettings.isDark);
+            break;
         }
       },
       itemBuilder: (BuildContext context) {
         return [
           PopupMenuItem(
-            value: 'license',
+            value: PopupItems.LICENSE,
             child: Text(format(context, 'license')),
+          ),
+          PopupMenuItem(
+            value: PopupItems.THEME,
+            child: Text(format(context, 'switch_theme')),
           ),
         ];
       },
     );
   }
+}
+
+enum PopupItems {
+  LICENSE,
+  THEME,
 }
