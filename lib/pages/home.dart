@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:powasys_frontend/bloc/blocs/data_bloc.dart';
-import 'package:powasys_frontend/bloc/events/data_events.dart';
+import 'package:powasys_frontend/bloc/data/data_bloc.dart';
+import 'package:powasys_frontend/bloc/data/data_events.dart';
 import 'package:powasys_frontend/data/trend_diagram.dart';
 import 'package:powasys_frontend/data/trend_table.dart';
 import 'package:powasys_frontend/i18n/i18n.dart';

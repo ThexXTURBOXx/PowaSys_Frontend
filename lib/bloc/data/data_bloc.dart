@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:powasys_frontend/bloc/events/data_events.dart';
-import 'package:powasys_frontend/bloc/repos/data_repo.dart';
-import 'package:powasys_frontend/bloc/states/data_state.dart';
+import 'package:powasys_frontend/bloc/data/data_events.dart';
+import 'package:powasys_frontend/bloc/data/data_repo.dart';
+import 'package:powasys_frontend/bloc/data/data_state.dart';
 import 'package:powasys_frontend/data/trend.dart';
 
 class DataBloc extends Bloc<DataEvent, DataState> {
