@@ -18,23 +18,9 @@ class Footer extends StatelessWidget {
             child: Text(format(context, 'copyright')),
           ),
           Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: TextButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.article_outlined),
-                  label: Text(format(context, 'imprint')),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: TextButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.alternate_email),
-                  label: Text(format(context, 'contact')),
-                ),
-              ),
+            children: const [
+              _FooterItem(Icons.subject, 'imprint'),
+              _FooterItem(Icons.alternate_email, 'contact'),
             ],
           ),
           Padding(
@@ -42,6 +28,25 @@ class Footer extends StatelessWidget {
             child: LanguageChooser(),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _FooterItem extends StatelessWidget {
+  final IconData icon;
+  final String translationKey;
+
+  const _FooterItem(this.icon, this.translationKey);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: TextButton.icon(
+        onPressed: () {},
+        icon: Icon(icon),
+        label: Text(format(context, translationKey)),
       ),
     );
   }

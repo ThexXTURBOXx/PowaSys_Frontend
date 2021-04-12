@@ -25,74 +25,23 @@ class _TrendTableState extends State<TrendTable> {
   @override
   Widget build(BuildContext context) {
     return DataTable(
-      columns: [
-            const DataColumn(
-              label: Text(''),
-            ),
-          ] +
-          Trend.values
-              .map(
-                (v) => DataColumn(
-                  label: Expanded(
-                    child: Text(
-                      format(context, v.name),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-              )
-              .toList(),
+      columns: <DataColumn>[const _EmptyDataColumn()] +
+          Trend.values.map((v) => _DataColumn(context, v.name)).toList(),
       rows: [
         DataRow(
-          cells: [
-                DataCell(
-                  Container(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      format(context, 'currently', ['${DateTime.now()}']),
-                      textAlign: TextAlign.end,
-                    ),
-                  ),
-                ),
+          cells: <DataCell>[
+                _InfoDataCell(
+                    format(context, 'currently', ['${DateTime.now()}']))
               ] +
               Trend.values
-                  .map(
-                    (v) => DataCell(
-                      Center(
-                        child: Text(
-                          format(context, 'amount_format',
-                              ['1', format(context, v.unit)]),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  )
+                  // TODO(Nico): Replace 1
+                  .map((t) => _ValueDataCell(context, 1, t.unit))
                   .toList(),
         ),
         DataRow(
-          cells: [
-                DataCell(
-                  Container(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      format(context, 'average'),
-                      textAlign: TextAlign.end,
-                    ),
-                  ),
-                ),
-              ] +
+          cells: <DataCell>[_InfoDataCell(format(context, 'average'))] +
               Trend.values
-                  .map(
-                    (t) => DataCell(
-                      Center(
-                        child: Text(
-                          format(context, 'amount_format',
-                              [getAverage(t) ?? '', format(context, t.unit)]),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  )
+                  .map((t) => _ValueDataCell(context, getAverage(t), t.unit))
                   .toList(),
         ),
       ],
@@ -102,4 +51,46 @@ class _TrendTableState extends State<TrendTable> {
   double? getAverage(Trend t) {
     return _repo.averages == null ? null : _repo.averages![t];
   }
+}
+
+class _EmptyDataColumn extends DataColumn {
+  const _EmptyDataColumn() : super(label: const Text(''));
+}
+
+class _DataColumn extends DataColumn {
+  _DataColumn(BuildContext context, String translationKey)
+      : super(
+          label: Expanded(
+            child: Text(
+              format(context, translationKey),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+}
+
+class _InfoDataCell extends DataCell {
+  _InfoDataCell(String label)
+      : super(
+          Container(
+            alignment: Alignment.centerRight,
+            child: Text(
+              label,
+              textAlign: TextAlign.end,
+            ),
+          ),
+        );
+}
+
+class _ValueDataCell extends DataCell {
+  _ValueDataCell(BuildContext context, double? amount, String unit)
+      : super(
+          Center(
+            child: Text(
+              format(context, 'amount_format',
+                  [amount ?? '', format(context, unit)]),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
 }

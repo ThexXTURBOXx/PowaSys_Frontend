@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:powasys_frontend/config/config.dart';
 import 'package:powasys_frontend/i18n/i18n.dart';
+import 'package:powasys_frontend/util/navigation.dart';
 
 class Logo extends StatelessWidget {
   @override
@@ -10,11 +11,7 @@ class Logo extends StatelessWidget {
     return TextButton.icon(
       icon: const Icon(Icons.code),
       label: Text(format(context, 'app_name')),
-      onPressed: () {
-        if (ModalRoute.of(context)!.settings.name != '/') {
-          Navigator.pushReplacementNamed(context, '/');
-        }
-      },
+      onPressed: () => navigateTo(context, '/'),
     );
   }
 }
@@ -25,11 +22,7 @@ class HomeButton extends StatelessWidget {
     return TextButton.icon(
       icon: const Icon(Icons.home_outlined),
       label: Text(format(context, 'home')),
-      onPressed: () {
-        if (ModalRoute.of(context)!.settings.name != '/') {
-          Navigator.pushReplacementNamed(context, '/');
-        }
-      },
+      onPressed: () => navigateTo(context, '/'),
     );
   }
 }
@@ -73,16 +66,14 @@ class PopMenu extends StatelessWidget {
         }
       },
       itemBuilder: (BuildContext context) {
-        return [
-          PopupMenuItem(
-            value: PopupItems.LICENSE,
-            child: Text(format(context, 'license')),
-          ),
-          PopupMenuItem(
-            value: PopupItems.THEME,
-            child: Text(format(context, 'switch_theme')),
-          ),
-        ];
+        return PopupItems.values
+            .map(
+              (item) => PopupMenuItem(
+                value: item,
+                child: _PopupItem(item.icon, item.translationKey),
+              ),
+            )
+            .toList();
       },
     );
   }
@@ -91,4 +82,55 @@ class PopMenu extends StatelessWidget {
 enum PopupItems {
   LICENSE,
   THEME,
+}
+
+extension PopupItemsMeta on PopupItems {
+  IconData get icon {
+    switch (this) {
+      case PopupItems.LICENSE:
+        return Icons.article_outlined;
+      case PopupItems.THEME:
+        return Icons.brightness_medium;
+    }
+  }
+
+  String get translationKey {
+    switch (this) {
+      case PopupItems.LICENSE:
+        return 'license';
+      case PopupItems.THEME:
+        return 'switch_theme';
+    }
+  }
+}
+
+class _PopupItem extends StatelessWidget {
+  final IconData icon;
+  final String translationKey;
+
+  const _PopupItem(this.icon, this.translationKey);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Icon(
+            icon,
+            size: 25,
+            color: Theme.of(context)
+                .textButtonTheme
+                .style!
+                .foregroundColor!
+                .resolve({MaterialState.focused})!,
+          ),
+        ),
+        Text(
+          format(context, translationKey),
+          textAlign: TextAlign.left,
+        )
+      ],
+    );
+  }
 }

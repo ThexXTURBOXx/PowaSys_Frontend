@@ -22,24 +22,36 @@ class LanguageChooserState extends State<LanguageChooser> {
           .map(
             (lang) => DropdownMenuItem(
               value: lang,
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Flag(
-                      lang.flag,
-                      width: 25,
-                    ),
-                  ),
-                  Text(
-                    lang.name,
-                    textAlign: TextAlign.left,
-                  )
-                ],
-              ),
+              child: _LanguageItem(lang.flag, lang.name),
             ),
           )
           .toList(),
+    );
+  }
+}
+
+class _LanguageItem extends StatelessWidget {
+  final String flag;
+  final String name;
+
+  const _LanguageItem(this.flag, this.name);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Flag(
+            flag,
+            width: 25,
+          ),
+        ),
+        Text(
+          name,
+          textAlign: TextAlign.left,
+        )
+      ],
     );
   }
 }
