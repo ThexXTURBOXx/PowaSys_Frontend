@@ -37,11 +37,11 @@ dependencies:
   hive: ^2.0.2
   hive_flutter: ^1.0.0
   package_info_plus: ^1.0.0
+  sprintf: ^6.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  sprintf: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -349,7 +349,7 @@ packages:
     source: hosted
     version: "1.8.0"
   sprintf:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: sprintf
       url: "https://pub.dartlang.org"
