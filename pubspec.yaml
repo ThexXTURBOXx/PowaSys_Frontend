@@ -27,7 +27,7 @@ environment:
 
 dependencies:
   equatable: ^2.0.0
-  fl_chart: ^0.35.0
+  fl_chart: ^0.36.0
   flag: ^5.0.0-nullsafety
   flutter:
     sdk: flutter
