@@ -1,0 +1,6 @@
+enum PowaSysState {
+  NOT_FETCHED,
+  FETCHING,
+  FETCHED_DATA,
+  FETCH_ERROR,
+}

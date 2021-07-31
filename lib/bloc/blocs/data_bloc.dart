@@ -1,26 +1,24 @@
 import 'dart:math';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:powasys_frontend/bloc/data/data_events.dart';
-import 'package:powasys_frontend/bloc/data/data_repo.dart';
-import 'package:powasys_frontend/bloc/data/data_state.dart';
+import 'package:powasys_frontend/bloc/events.dart';
+import 'package:powasys_frontend/bloc/repo.dart';
+import 'package:powasys_frontend/bloc/states.dart';
 import 'package:powasys_frontend/data/trend.dart';
 
-class DataBloc extends Bloc<DataEvent, DataState> {
-  static DataBloc? _singleton;
-  final DataRepo _repo;
+class DataBloc extends Bloc<DataEvent, PowaSysState> {
+  static final DataBloc _singleton = DataBloc._internal();
 
-  factory DataBloc() {
-    _singleton ??= DataBloc._internal(DataRepo());
-    return _singleton!;
-  }
+  final PowaSysRepo _repo = PowaSysRepo();
 
-  DataBloc._internal(this._repo) : super(NotFetched());
+  factory DataBloc() => _singleton;
+
+  DataBloc._internal() : super(PowaSysState.NOT_FETCHED);
 
   @override
-  Stream<DataState> mapEventToState(DataEvent event) async* {
+  Stream<PowaSysState> mapEventToState(DataEvent event) async* {
     try {
-      yield Fetching();
+      yield PowaSysState.FETCHING;
 
       if (event is FetchData) {
         final r = Random();
@@ -37,10 +35,10 @@ class DataBloc extends Bloc<DataEvent, DataState> {
         _repo.averages = Trend.values
             .asMap()
             .map((i, v) => MapEntry(v, r.nextDouble() + r.nextInt(720)));
-        yield FetchedData();
+        yield PowaSysState.FETCHED_DATA;
       }
     } catch (e) {
-      yield FetchError();
+      yield PowaSysState.FETCH_ERROR;
     }
   }
 }

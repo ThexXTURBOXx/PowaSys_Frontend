@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:powasys_frontend/bloc/data/data_bloc.dart';
-import 'package:powasys_frontend/bloc/data/data_repo.dart';
+import 'package:powasys_frontend/bloc/blocs/data_bloc.dart';
+import 'package:powasys_frontend/bloc/repo.dart';
 import 'package:powasys_frontend/data/trend.dart';
 import 'package:powasys_frontend/generated/l10n.dart';
 import 'package:sprintf/sprintf.dart';
@@ -13,7 +13,7 @@ class TrendDiagram extends StatefulWidget {
 
 class _TrendDiagramState extends State<TrendDiagram> {
   final DataBloc _bloc = DataBloc();
-  final DataRepo _repo = DataRepo();
+  final PowaSysRepo _repo = PowaSysRepo();
 
   @override
   void initState() {
