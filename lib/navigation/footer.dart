@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:powasys_frontend/i18n/i18n.dart';
-import 'package:powasys_frontend/i18n/lang_chooser.dart';
+import 'package:powasys_frontend/generated/l10n.dart';
+import 'package:powasys_frontend/l10n/lang_chooser.dart';
 
 class Footer extends StatelessWidget {
   @override
@@ -15,12 +15,12 @@ class Footer extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(20),
-            child: Text(format(context, 'copyright')),
+            child: Text(S.of(context).copyright),
           ),
           Row(
-            children: const [
-              _FooterItem(Icons.subject, 'imprint'),
-              _FooterItem(Icons.alternate_email, 'contact'),
+            children: [
+              _FooterItem(Icons.subject, S.of(context).imprint),
+              _FooterItem(Icons.alternate_email, S.of(context).contact),
             ],
           ),
           Padding(
@@ -35,9 +35,9 @@ class Footer extends StatelessWidget {
 
 class _FooterItem extends StatelessWidget {
   final IconData icon;
-  final String translationKey;
+  final String name;
 
-  const _FooterItem(this.icon, this.translationKey);
+  const _FooterItem(this.icon, this.name);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class _FooterItem extends StatelessWidget {
       child: TextButton.icon(
         onPressed: () {},
         icon: Icon(icon),
-        label: Text(format(context, translationKey)),
+        label: Text(name),
       ),
     );
   }

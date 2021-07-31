@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:powasys_frontend/config/config.dart';
-import 'package:powasys_frontend/i18n/i18n.dart';
+import 'package:powasys_frontend/generated/l10n.dart';
 import 'package:powasys_frontend/pages/home.dart';
 import 'package:powasys_frontend/themes/dark_theme.dart';
 import 'package:powasys_frontend/themes/light_theme.dart';
@@ -42,21 +42,19 @@ class _PowaSysFrontendWidgetState extends State<PowaSysFrontendWidget> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: format(null, 'app_name'),
+      onGenerateTitle: (context) => S.of(context).app_name,
       debugShowCheckedModeBanner: false,
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: themeSettings.currentTheme,
       locale: localeSettings.currentLocale,
       localizationsDelegates: const [
+        S.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [
-        Locale('en'),
-        Locale('de'),
-      ],
+      supportedLocales: S.delegate.supportedLocales,
       initialRoute: '/',
       routes: {
         '/': (context) => Home(packageInfo),

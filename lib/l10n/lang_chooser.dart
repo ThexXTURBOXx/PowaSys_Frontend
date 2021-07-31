@@ -1,7 +1,15 @@
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:powasys_frontend/config/config.dart';
-import 'package:powasys_frontend/i18n/i18n.dart';
+
+const Language ENGLISH = Language('en', Locale('en'), 'English', FlagsCode.GB);
+const Language GERMAN = Language('de', Locale('de'), 'Deutsch', FlagsCode.DE);
+
+const Map<String, Language> LANGUAGES = {
+  'en': ENGLISH,
+  'de': GERMAN,
+};
+const Language FALLBACK_LANG = ENGLISH;
 
 class LanguageChooser extends StatefulWidget {
   @override
@@ -15,14 +23,14 @@ class LanguageChooserState extends State<LanguageChooser> {
       value: localeSettings.currentLanguage,
       onChanged: (language) {
         setState(() {
-          localeSettings.setLocale((language ?? fallbackLanguage).code);
+          localeSettings.setLocale((language ?? FALLBACK_LANG).code);
         });
       },
-      items: languages.values
+      items: LANGUAGES.values
           .map(
             (lang) => DropdownMenuItem(
               value: lang,
-              child: _LanguageItem(lang.flag, lang.name),
+              child: _LanguageItem(lang.flagsCode, lang.name),
             ),
           )
           .toList(),
@@ -30,11 +38,20 @@ class LanguageChooserState extends State<LanguageChooser> {
   }
 }
 
+class Language {
+  final String code;
+  final Locale locale;
+  final String name;
+  final FlagsCode flagsCode;
+
+  const Language(this.code, this.locale, this.name, this.flagsCode);
+}
+
 class _LanguageItem extends StatelessWidget {
-  final String flag;
+  final FlagsCode flagsCode;
   final String name;
 
-  const _LanguageItem(this.flag, this.name);
+  const _LanguageItem(this.flagsCode, this.name);
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +59,8 @@ class _LanguageItem extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Flag(
-            flag,
+          child: Flag.fromCode(
+            flagsCode,
             width: 25,
           ),
         ),

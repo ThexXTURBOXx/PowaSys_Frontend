@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:powasys_frontend/config/config.dart';
-import 'package:powasys_frontend/i18n/i18n.dart';
+import 'package:powasys_frontend/generated/l10n.dart';
 import 'package:powasys_frontend/util/navigation.dart';
 
 class Logo extends StatelessWidget {
@@ -10,7 +10,7 @@ class Logo extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton.icon(
       icon: const Icon(Icons.code),
-      label: Text(format(context, 'app_name')),
+      label: Text(S.of(context).app_name),
       onPressed: () => navigateTo(context, '/'),
     );
   }
@@ -21,7 +21,7 @@ class HomeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton.icon(
       icon: const Icon(Icons.home_outlined),
-      label: Text(format(context, 'home')),
+      label: Text(S.of(context).home),
       onPressed: () => navigateTo(context, '/'),
     );
   }
@@ -70,7 +70,7 @@ class PopMenu extends StatelessWidget {
             .map(
               (item) => PopupMenuItem(
                 value: item,
-                child: _PopupItem(item.icon, item.translationKey),
+                child: _PopupItem(item.icon, item.name(context)),
               ),
             )
             .toList();
@@ -94,21 +94,21 @@ extension PopupItemsMeta on PopupItems {
     }
   }
 
-  String get translationKey {
+  String name(BuildContext context) {
     switch (this) {
       case PopupItems.LICENSE:
-        return 'license';
+        return S.of(context).license;
       case PopupItems.THEME:
-        return 'switch_theme';
+        return S.of(context).switch_theme;
     }
   }
 }
 
 class _PopupItem extends StatelessWidget {
   final IconData icon;
-  final String translationKey;
+  final String name;
 
-  const _PopupItem(this.icon, this.translationKey);
+  const _PopupItem(this.icon, this.name);
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +127,7 @@ class _PopupItem extends StatelessWidget {
           ),
         ),
         Text(
-          format(context, translationKey),
+          name,
           textAlign: TextAlign.left,
         )
       ],

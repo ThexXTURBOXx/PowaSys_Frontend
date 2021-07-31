@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:powasys_frontend/bloc/data/data_bloc.dart';
 import 'package:powasys_frontend/bloc/data/data_repo.dart';
 import 'package:powasys_frontend/data/trend.dart';
-import 'package:powasys_frontend/i18n/i18n.dart';
+import 'package:powasys_frontend/generated/l10n.dart';
+import 'package:sprintf/sprintf.dart';
 
 class TrendDiagram extends StatefulWidget {
   @override
@@ -36,9 +37,9 @@ class _TrendDiagramState extends State<TrendDiagram> {
                   return touchedSpots
                       .map(
                         (spot) => LineTooltipItem(
-                          format(context, 'amount_format', [
+                          sprintf(S.of(context).amount_format, [
                             '${spot.y}',
-                            format(context, Trend.values[spot.barIndex].unit),
+                            Trend.values[spot.barIndex].unit(context),
                           ]),
                           TextStyle(
                             color: spot.bar.colors[0],

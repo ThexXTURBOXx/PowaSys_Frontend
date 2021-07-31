@@ -1,0 +1,79 @@
+{
+  "@@locale": "en",
+  "app_name": "PowaSys Frontend",
+  "@app_name": {
+    "description": "The application's name"
+  },
+  "copyright": "\u00a9 2021 Nico Mexis",
+  "@copyright": {
+    "description": "The copyright shown in the bottom left corner"
+  },
+  "home": "Home",
+  "@home": {
+    "description": "The text for the home button in the header"
+  },
+  "imprint": "Imprint",
+  "@imprint": {
+    "description": "The text for the imprint button in the footer"
+  },
+  "contact": "Contact",
+  "@contact": {
+    "description": "The text for the contact button in the footer"
+  },
+  "license": "Licenses",
+  "@license": {
+    "description": "The text for the licenses button in the header"
+  },
+  "voltage": "Voltage",
+  "@voltage": {
+    "description": "The name of physical voltage units"
+  },
+  "current_": "Current",
+  "@current_": {
+    "description": "The name of physical current units"
+  },
+  "power": "Power",
+  "@power": {
+    "description": "The name of physical power units"
+  },
+  "temperature": "Temperature",
+  "@temperature": {
+    "description": "The name of physical temperature units"
+  },
+  "currently": "Currently (%s):",
+  "@currently": {
+    "description": "The table entry for the current value. The place holder gets replaced by the timestamp"
+  },
+  "average": "Average:",
+  "@average": {
+    "description": "The table entry for averages"
+  },
+  "amount_format": "%s %s",
+  "@amount_format": {
+    "description": "The format for physical amounts. The first wildcard gets replaced by the value and the second one by the unit abbreviation"
+  },
+  "voltage_unit": "V",
+  "@voltage_unit": {
+    "description": "The unit abbreviation for physical voltage"
+  },
+  "current_unit": "A",
+  "@current_unit": {
+    "description": "The unit abbreviation for physical current"
+  },
+  "power_unit": "W",
+  "@power_unit": {
+    "description": "The unit abbreviation for physical power"
+  },
+  "temperature_unit": "°C",
+  "@temperature_unit": {
+    "description": "The unit abbreviation for physical temperature in Celsius"
+  },
+  "switch_theme": "Switch theme",
+  "@switch_theme": {
+    "description": "The text for the button to switch themes in the header"
+  },
+  "refresh": "Refresh",
+  "@refresh": {
+    "description": "The hover text for the floating refresh button"
+  }
+}

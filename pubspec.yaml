@@ -36,6 +36,7 @@ dependencies:
     sdk: flutter
   hive: ^2.0.2
   hive_flutter: ^1.0.0
+  intl: ^0.17.0
   package_info_plus: ^1.0.0
   sprintf: ^6.0.0
 
@@ -84,3 +85,6 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+flutter_intl:
+  enabled: true

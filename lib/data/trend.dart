@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:powasys_frontend/generated/l10n.dart';
 
 enum Trend {
   VOLTAGE,
@@ -9,29 +10,29 @@ enum Trend {
 }
 
 extension TrendMeta on Trend {
-  String get name {
+  String name(BuildContext context) {
     switch (this) {
       case Trend.VOLTAGE:
-        return 'voltage';
+        return S.of(context).voltage;
       case Trend.CURRENT:
-        return 'current';
+        return S.of(context).current_;
       case Trend.POWER:
-        return 'power';
+        return S.of(context).power;
       case Trend.TEMPERATURE:
-        return 'temperature';
+        return S.of(context).temperature;
     }
   }
 
-  String get unit {
+  String unit(BuildContext context) {
     switch (this) {
       case Trend.VOLTAGE:
-        return 'voltage_unit';
+        return S.of(context).voltage_unit;
       case Trend.CURRENT:
-        return 'current_unit';
+        return S.of(context).current_unit;
       case Trend.POWER:
-        return 'power_unit';
+        return S.of(context).power_unit;
       case Trend.TEMPERATURE:
-        return 'temperature_unit';
+        return S.of(context).temperature_unit;
     }
   }
 

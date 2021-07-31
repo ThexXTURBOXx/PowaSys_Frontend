@@ -1,0 +1,22 @@
+{
+  "@@locale": "de",
+  "app_name": "PowaSys Frontend",
+  "copyright": "\u00a9 2021 Nico Mexis",
+  "home": "Startseite",
+  "imprint": "Impressum",
+  "contact": "Kontakt",
+  "license": "Lizenzen",
+  "voltage": "Spannung",
+  "current_": "Stärke",
+  "power": "Leistung",
+  "temperature": "Temperatur",
+  "currently": "Derzeit (%s):",
+  "average": "Durchschnitt:",
+  "amount_format": "%s %s",
+  "voltage_unit": "V",
+  "current_unit": "A",
+  "power_unit": "W",
+  "temperature_unit": "°C",
+  "switch_theme": "Thema wechseln",
+  "refresh": "Neu laden"
+}

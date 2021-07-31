@@ -3,7 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:powasys_frontend/bloc/data/data_bloc.dart';
 import 'package:powasys_frontend/bloc/data/data_repo.dart';
 import 'package:powasys_frontend/data/trend.dart';
-import 'package:powasys_frontend/i18n/i18n.dart';
+import 'package:powasys_frontend/generated/l10n.dart';
+import 'package:sprintf/sprintf.dart';
 
 class TrendTable extends StatefulWidget {
   @override
@@ -26,22 +27,23 @@ class _TrendTableState extends State<TrendTable> {
   Widget build(BuildContext context) {
     return DataTable(
       columns: <DataColumn>[const _EmptyDataColumn()] +
-          Trend.values.map((v) => _DataColumn(context, v.name)).toList(),
+          Trend.values.map((v) => _DataColumn(v.name(context))).toList(),
       rows: [
         DataRow(
           cells: <DataCell>[
                 _InfoDataCell(
-                    format(context, 'currently', ['${DateTime.now()}']))
+                    sprintf(S.of(context).currently, ['${DateTime.now()}']))
               ] +
               Trend.values
                   // TODO(Nico): Replace 1
-                  .map((t) => _ValueDataCell(context, 1, t.unit))
+                  .map((t) => _ValueDataCell(context, 1, t.unit(context)))
                   .toList(),
         ),
         DataRow(
-          cells: <DataCell>[_InfoDataCell(format(context, 'average'))] +
+          cells: <DataCell>[_InfoDataCell(S.of(context).average)] +
               Trend.values
-                  .map((t) => _ValueDataCell(context, getAverage(t), t.unit))
+                  .map((t) =>
+                      _ValueDataCell(context, getAverage(t), t.unit(context)))
                   .toList(),
         ),
       ],
@@ -58,11 +60,11 @@ class _EmptyDataColumn extends DataColumn {
 }
 
 class _DataColumn extends DataColumn {
-  _DataColumn(BuildContext context, String translationKey)
+  _DataColumn(String name)
       : super(
           label: Expanded(
             child: Text(
-              format(context, translationKey),
+              name,
               textAlign: TextAlign.center,
             ),
           ),
@@ -87,8 +89,7 @@ class _ValueDataCell extends DataCell {
       : super(
           Center(
             child: Text(
-              format(context, 'amount_format',
-                  [amount ?? '', format(context, unit)]),
+              sprintf(S.of(context).amount_format, [amount ?? '', unit]),
               textAlign: TextAlign.center,
             ),
           ),

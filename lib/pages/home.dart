@@ -4,7 +4,7 @@ import 'package:powasys_frontend/bloc/data/data_bloc.dart';
 import 'package:powasys_frontend/bloc/data/data_events.dart';
 import 'package:powasys_frontend/data/trend_diagram.dart';
 import 'package:powasys_frontend/data/trend_table.dart';
-import 'package:powasys_frontend/i18n/i18n.dart';
+import 'package:powasys_frontend/generated/l10n.dart';
 import 'package:powasys_frontend/navigation/footer.dart';
 import 'package:powasys_frontend/navigation/header.dart';
 
@@ -52,7 +52,7 @@ class _HomeState extends State<Home> {
         onPressed: () {
           _bloc.add(FetchData());
         },
-        tooltip: format(context, 'refresh'),
+        tooltip: S.of(context).refresh,
         child: const Icon(Icons.refresh),
       ),
     );
