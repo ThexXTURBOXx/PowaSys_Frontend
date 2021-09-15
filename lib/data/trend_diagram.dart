@@ -52,7 +52,7 @@ class _TrendDiagramState extends State<TrendDiagram> {
                 },
                 tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
               ),
-              touchCallback: (LineTouchResponse touchResponse) {},
+              touchCallback: (touchEvent, touchResponse) {},
               handleBuiltInTouches: true,
             ),
             gridData: FlGridData(
@@ -62,7 +62,7 @@ class _TrendDiagramState extends State<TrendDiagram> {
               bottomTitles: SideTitles(
                 showTitles: true,
                 reservedSize: 22,
-                getTextStyles: (value) => const TextStyle(
+                getTextStyles: (ctx, value) => const TextStyle(
                   color: Colors.blueGrey,
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
