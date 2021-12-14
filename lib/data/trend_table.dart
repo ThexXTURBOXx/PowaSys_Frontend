@@ -7,6 +7,8 @@ import 'package:powasys_frontend/generated/l10n.dart';
 import 'package:sprintf/sprintf.dart';
 
 class TrendTable extends StatefulWidget {
+  const TrendTable({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _TrendTableState();
 }
@@ -24,35 +26,38 @@ class _TrendTableState extends State<TrendTable> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return DataTable(
-      columns: <DataColumn>[const _EmptyDataColumn()] +
-          Trend.values.map((v) => _DataColumn(v.name(context))).toList(),
-      rows: [
-        DataRow(
-          cells: <DataCell>[
-                _InfoDataCell(
-                    sprintf(S.of(context).currently, ['${DateTime.now()}']))
-              ] +
-              Trend.values
-                  // TODO(Nico): Replace 1
-                  .map((t) => _ValueDataCell(context, 1, t.unit(context)))
-                  .toList(),
-        ),
-        DataRow(
-          cells: <DataCell>[_InfoDataCell(S.of(context).average)] +
-              Trend.values
-                  .map((t) =>
-                      _ValueDataCell(context, getAverage(t), t.unit(context)))
-                  .toList(),
-        ),
-      ],
-    );
-  }
+  Widget build(BuildContext context) => DataTable(
+        columns: <DataColumn>[const _EmptyDataColumn()] +
+            Trend.values.map((v) => _DataColumn(v.name(context))).toList(),
+        rows: [
+          DataRow(
+            cells: <DataCell>[
+                  _InfoDataCell(
+                    sprintf(S.of(context).currently, ['${DateTime.now()}']),
+                  )
+                ] +
+                Trend.values
+                    // TODO(Nico): Replace 1
+                    .map((t) => _ValueDataCell(context, 1, t.unit(context)))
+                    .toList(),
+          ),
+          DataRow(
+            cells: <DataCell>[_InfoDataCell(S.of(context).average)] +
+                Trend.values
+                    .map(
+                      (t) => _ValueDataCell(
+                        context,
+                        getAverage(t),
+                        t.unit(context),
+                      ),
+                    )
+                    .toList(),
+          ),
+        ],
+      );
 
-  double? getAverage(Trend t) {
-    return _repo.averages == null ? null : _repo.averages![t];
-  }
+  double? getAverage(Trend t) =>
+      _repo.averages == null ? null : _repo.averages![t];
 }
 
 class _EmptyDataColumn extends DataColumn {

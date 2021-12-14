@@ -12,17 +12,19 @@ late PackageInfo packageInfo;
 Future<void> main() async {
   await initConfig();
   packageInfo = await PackageInfo.fromPlatform();
-  runApp(PowaSysFrontend());
+  runApp(const PowaSysFrontend());
 }
 
 class PowaSysFrontend extends StatelessWidget {
+  const PowaSysFrontend({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    return PowaSysFrontendWidget();
-  }
+  Widget build(BuildContext context) => const PowaSysFrontendWidget();
 }
 
 class PowaSysFrontendWidget extends StatefulWidget {
+  const PowaSysFrontendWidget({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _PowaSysFrontendWidgetState();
 }
@@ -40,25 +42,23 @@ class _PowaSysFrontendWidgetState extends State<PowaSysFrontendWidget> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      onGenerateTitle: (context) => S.of(context).app_name,
-      debugShowCheckedModeBanner: false,
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      themeMode: themeSettings.currentTheme,
-      locale: localeSettings.currentLocale,
-      localizationsDelegates: const [
-        S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: S.delegate.supportedLocales,
-      initialRoute: '/',
-      routes: {
-        '/': (context) => Home(packageInfo),
-      },
-    );
-  }
+  Widget build(BuildContext context) => MaterialApp(
+        onGenerateTitle: (context) => S.of(context).app_name,
+        debugShowCheckedModeBanner: false,
+        theme: lightTheme,
+        darkTheme: darkTheme,
+        themeMode: themeSettings.currentTheme,
+        locale: localeSettings.currentLocale,
+        localizationsDelegates: const [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
+        initialRoute: '/',
+        routes: {
+          '/': (context) => Home(packageInfo),
+        },
+      );
 }

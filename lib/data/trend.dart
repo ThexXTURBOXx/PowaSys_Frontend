@@ -3,48 +3,48 @@ import 'package:flutter/widgets.dart';
 import 'package:powasys_frontend/generated/l10n.dart';
 
 enum Trend {
-  VOLTAGE,
-  CURRENT,
-  POWER,
-  TEMPERATURE,
+  voltage,
+  current,
+  power,
+  temperature,
 }
 
 extension TrendMeta on Trend {
   String name(BuildContext context) {
     switch (this) {
-      case Trend.VOLTAGE:
+      case Trend.voltage:
         return S.of(context).voltage;
-      case Trend.CURRENT:
+      case Trend.current:
         return S.of(context).current_;
-      case Trend.POWER:
+      case Trend.power:
         return S.of(context).power;
-      case Trend.TEMPERATURE:
+      case Trend.temperature:
         return S.of(context).temperature;
     }
   }
 
   String unit(BuildContext context) {
     switch (this) {
-      case Trend.VOLTAGE:
+      case Trend.voltage:
         return S.of(context).voltage_unit;
-      case Trend.CURRENT:
+      case Trend.current:
         return S.of(context).current_unit;
-      case Trend.POWER:
+      case Trend.power:
         return S.of(context).power_unit;
-      case Trend.TEMPERATURE:
+      case Trend.temperature:
         return S.of(context).temperature_unit;
     }
   }
 
   Color get color {
     switch (this) {
-      case Trend.VOLTAGE:
+      case Trend.voltage:
         return Colors.indigo;
-      case Trend.CURRENT:
+      case Trend.current:
         return Colors.lightBlueAccent;
-      case Trend.POWER:
+      case Trend.power:
         return Colors.deepOrangeAccent;
-      case Trend.TEMPERATURE:
+      case Trend.temperature:
         return Colors.greenAccent;
     }
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 
-class ThemeSettings with ChangeNotifier {
+class ThemeSettings extends ChangeNotifier {
   static bool _isDark = false;
   final Box _box;
 
@@ -18,7 +18,7 @@ class ThemeSettings with ChangeNotifier {
 
   bool get isDark => _isDark;
 
-  void setTheme(bool isDark) {
+  void setTheme({required bool isDark}) {
     _isDark = isDark;
     _box.put('theme.dark', _isDark);
     notifyListeners();

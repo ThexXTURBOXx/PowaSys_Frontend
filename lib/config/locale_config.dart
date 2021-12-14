@@ -3,8 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 import 'package:powasys_frontend/l10n/lang_chooser.dart';
 
-class LocaleSettings with ChangeNotifier {
-  static String _locale = FALLBACK_LANG.code;
+class LocaleSettings extends ChangeNotifier {
+  static String _locale = fallbackLang.code;
   final Box _box;
 
   LocaleSettings(this._box) {
@@ -15,9 +15,9 @@ class LocaleSettings with ChangeNotifier {
     }
   }
 
-  Locale get currentLocale => LANGUAGES[_locale]!.locale;
+  Locale get currentLocale => languages[_locale]!.locale;
 
-  Language? get currentLanguage => LANGUAGES[_locale];
+  Language? get currentLanguage => languages[_locale];
 
   String get currentCode => _locale;
 

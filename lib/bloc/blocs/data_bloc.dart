@@ -13,12 +13,16 @@ class DataBloc extends Bloc<DataEvent, PowaSysState> {
 
   factory DataBloc() => _singleton;
 
-  DataBloc._internal() : super(PowaSysState.NOT_FETCHED);
+  DataBloc._internal() : super(PowaSysState.notFetched) {
+    on<FetchData>(_fetchData);
+  }
 
-  @override
-  Stream<PowaSysState> mapEventToState(DataEvent event) async* {
+  Future<void> _fetchData(
+    DataEvent event,
+    Emitter<PowaSysState> emit,
+  ) async {
     try {
-      yield PowaSysState.FETCHING;
+      emit(PowaSysState.fetching);
 
       if (event is FetchData) {
         final r = Random();
@@ -35,10 +39,10 @@ class DataBloc extends Bloc<DataEvent, PowaSysState> {
         _repo.averages = Trend.values
             .asMap()
             .map((i, v) => MapEntry(v, r.nextDouble() + r.nextInt(720)));
-        yield PowaSysState.FETCHED_DATA;
+        emit(PowaSysState.fetchedData);
       }
     } catch (e) {
-      yield PowaSysState.FETCH_ERROR;
+      emit(PowaSysState.fetchError);
     }
   }
 }

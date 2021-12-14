@@ -7,6 +7,8 @@ import 'package:powasys_frontend/generated/l10n.dart';
 import 'package:sprintf/sprintf.dart';
 
 class TrendDiagram extends StatefulWidget {
+  const TrendDiagram({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _TrendDiagramState();
 }
@@ -24,17 +26,15 @@ class _TrendDiagramState extends State<TrendDiagram> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 300,
-      child: Padding(
-        padding: const EdgeInsets.only(right: 16.0, left: 16.0),
-        child: LineChart(
-          LineChartData(
-            lineTouchData: LineTouchData(
-              touchTooltipData: LineTouchTooltipData(
-                getTooltipItems: (touchedSpots) {
-                  return touchedSpots
+  Widget build(BuildContext context) => SizedBox(
+        height: 300,
+        child: Padding(
+          padding: const EdgeInsets.only(right: 16, left: 16),
+          child: LineChart(
+            LineChartData(
+              lineTouchData: LineTouchData(
+                touchTooltipData: LineTouchTooltipData(
+                  getTooltipItems: (touchedSpots) => touchedSpots
                       .map(
                         (spot) => LineTooltipItem(
                           sprintf(S.of(context).amount_format, [
@@ -48,60 +48,58 @@ class _TrendDiagramState extends State<TrendDiagram> {
                           ),
                         ),
                       )
-                      .toList();
-                },
-                tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
+                      .toList(),
+                  tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
+                ),
+                touchCallback: (touchEvent, touchResponse) {},
+                handleBuiltInTouches: true,
               ),
-              touchCallback: (touchEvent, touchResponse) {},
-              handleBuiltInTouches: true,
-            ),
-            gridData: FlGridData(
-              show: false,
-            ),
-            titlesData: FlTitlesData(
-              bottomTitles: SideTitles(
-                showTitles: true,
-                reservedSize: 22,
-                getTextStyles: (ctx, value) => const TextStyle(
-                  color: Colors.blueGrey,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-                margin: 10,
-                getTitles: (value) => '$value',
+              gridData: FlGridData(
+                show: false,
               ),
-              leftTitles: SideTitles(
-                showTitles: false,
-              ),
-            ),
-            borderData: FlBorderData(
-              show: true,
-              border: const Border(
-                bottom: BorderSide(
-                  color: Colors.indigo,
-                  width: 4,
+              titlesData: FlTitlesData(
+                bottomTitles: SideTitles(
+                  showTitles: true,
+                  reservedSize: 22,
+                  getTextStyles: (ctx, value) => const TextStyle(
+                    color: Colors.blueGrey,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                  margin: 10,
+                  getTitles: (value) => '$value',
                 ),
-                left: BorderSide(
-                  color: Colors.transparent,
-                ),
-                right: BorderSide(
-                  color: Colors.transparent,
-                ),
-                top: BorderSide(
-                  color: Colors.transparent,
+                leftTitles: SideTitles(
+                  showTitles: false,
                 ),
               ),
+              borderData: FlBorderData(
+                show: true,
+                border: const Border(
+                  bottom: BorderSide(
+                    color: Colors.indigo,
+                    width: 4,
+                  ),
+                  left: BorderSide(
+                    color: Colors.transparent,
+                  ),
+                  right: BorderSide(
+                    color: Colors.transparent,
+                  ),
+                  top: BorderSide(
+                    color: Colors.transparent,
+                  ),
+                ),
+              ),
+              minX: 0,
+              maxX: 23,
+              minY: 0,
+              maxY: 721,
+              lineBarsData: linesBarData(),
             ),
-            minX: 0,
-            maxX: 23,
-            minY: 0,
-            maxY: 721,
-            lineBarsData: linesBarData(),
           ),
         ),
-      ),
-    );
-  }
+      );
 
   List<LineChartBarData> linesBarData() {
     final d = _repo.data ?? {};
