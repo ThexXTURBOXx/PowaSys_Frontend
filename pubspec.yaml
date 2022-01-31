@@ -25,8 +25,8 @@ environment:
 
 dependencies:
   equatable: ^2.0.0
-  fl_chart: ^0.40.0
-  flag: ^5.0.0-nullsafety
+  fl_chart: ^0.41.0
+  flag: ^6.0.0
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.0

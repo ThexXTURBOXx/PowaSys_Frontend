@@ -4,9 +4,9 @@
   "@app_name": {
     "description": "The application's name"
   },
-  "copyright": "\u00a9 2021 Nico Mexis",
+  "copyright": "\u00a9 %s Nico Mexis",
   "@copyright": {
-    "description": "The copyright shown in the bottom left corner"
+    "description": "The copyright shown in the bottom left corner. The place holder gets replaced by the current year"
   },
   "home": "Home",
   "@home": {

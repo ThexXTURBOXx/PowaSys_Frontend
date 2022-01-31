@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:powasys_frontend/generated/l10n.dart';
 import 'package:powasys_frontend/l10n/lang_chooser.dart';
+import 'package:sprintf/sprintf.dart';
 
 class Footer extends StatelessWidget {
   const Footer({Key? key}) : super(key: key);
@@ -17,7 +18,8 @@ class Footer extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(20),
-            child: Text(S.of(context).copyright),
+            child:
+                Text(sprintf(S.of(context).copyright, [DateTime.now().year])),
           ),
           Row(
             children: [
