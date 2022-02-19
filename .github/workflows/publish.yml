@@ -13,7 +13,10 @@ jobs:
     - uses: subosito/flutter-action@v2
       with:
         channel: 'stable'
+    - run: flutter --version
+    - run: flutter pub global activate intl_utils
     - run: flutter pub get
+    - run: flutter pub global run intl_utils:generate
     - run: flutter build web
     - uses: actions/upload-artifact@v2
       with:
