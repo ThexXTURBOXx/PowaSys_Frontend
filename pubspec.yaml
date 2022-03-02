@@ -31,13 +31,16 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.0
+  flutter_dotenv: ^5.0.2
   flutter_localizations:
     sdk: flutter
   hive: ^2.0.2
   hive_flutter: ^1.0.0
+  http: ^0.13.4
   intl: ^0.17.0
   package_info_plus: ^1.0.0
   sprintf: ^6.0.0
+  tuple: ^2.0.0
 
 dev_dependencies:
   flutter_lints: ^1.0.4

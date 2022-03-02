@@ -40,13 +40,13 @@
   "@temperature": {
     "description": "The name of physical temperature units"
   },
-  "currently": "Currently (%s):",
+  "currently": "Currently (%s, %s):",
   "@currently": {
-    "description": "The table entry for the current value. The place holder gets replaced by the timestamp"
+    "description": "The table entry for the current value. The place holders get replaced by the Powador name and timestamp, respectively"
   },
-  "average": "Average:",
+  "average": "Average (%s):",
   "@average": {
-    "description": "The table entry for averages"
+    "description": "The table entry for averages. The place holder gets replaced by the Powador name"
   },
   "amount_format": "%s %s",
   "@amount_format": {

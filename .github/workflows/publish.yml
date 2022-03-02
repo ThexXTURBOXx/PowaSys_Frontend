@@ -23,7 +23,6 @@ jobs:
         with:
           tag_name: v${{ github.run_number }}
           files: release.zip
-          generate_release_notes: true
       - uses: actions/upload-artifact@v2
         if: success()
         with:

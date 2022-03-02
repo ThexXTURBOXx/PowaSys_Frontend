@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
   final DataBloc _bloc = DataBloc();
 
   _HomeState() {
-    _bloc.add(FetchData());
+    _bloc.add(const FetchData());
   }
 
   @override
@@ -48,7 +48,7 @@ class _HomeState extends State<Home> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            _bloc.add(FetchData());
+            _bloc.add(const FetchData());
           },
           tooltip: S.of(context).refresh,
           child: const Icon(Icons.refresh),

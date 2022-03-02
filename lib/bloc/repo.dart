@@ -1,12 +1,25 @@
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:powasys_frontend/data/trend.dart';
+import 'package:tuple/tuple.dart';
 
 class PowaSysRepo {
   static final PowaSysRepo _singleton = PowaSysRepo._internal();
 
-  Map<DateTime, Map<Trend, double>>? data;
-  Map<Trend, double>? averages;
+  static final Client _client = Client();
+
+  final List<int> disabledPowadors = [];
+  Trend currentTrend = Trend.netPower;
+
+  Map<int, Tuple2<String, Color>> powadors = {};
+  Map<int, Tuple2<DateTime, Map<Trend, double>>> latest = {};
+  Map<int, Map<Trend, double>> averages = {};
+  Map<int, List<FlSpot>> data = {};
 
   factory PowaSysRepo() => _singleton;
 
   PowaSysRepo._internal();
+
+  Client get client => _client;
 }

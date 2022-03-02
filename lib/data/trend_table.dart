@@ -29,35 +29,56 @@ class _TrendTableState extends State<TrendTable> {
   Widget build(BuildContext context) => DataTable(
         columns: <DataColumn>[const _EmptyDataColumn()] +
             Trend.values.map((v) => _DataColumn(v.name(context))).toList(),
-        rows: [
-          DataRow(
-            cells: <DataCell>[
-                  _InfoDataCell(
-                    sprintf(S.of(context).currently, ['${DateTime.now()}']),
-                  )
-                ] +
-                Trend.values
-                    // TODO(Nico): Replace 1
-                    .map((t) => _ValueDataCell(context, 1, t.unit(context)))
-                    .toList(),
-          ),
-          DataRow(
-            cells: <DataCell>[_InfoDataCell(S.of(context).average)] +
-                Trend.values
-                    .map(
-                      (t) => _ValueDataCell(
-                        context,
-                        getAverage(t),
-                        t.unit(context),
-                      ),
-                    )
-                    .toList(),
-          ),
-        ],
+        rows: _repo.latest.entries
+                .map(
+                  (e) => DataRow(
+                    cells: <DataCell>[
+                          _InfoDataCell(
+                            sprintf(
+                              S.of(context).currently,
+                              [
+                                _repo.powadors[e.key]!.item1,
+                                '${e.value.item1}'
+                              ],
+                            ),
+                          )
+                        ] +
+                        Trend.values
+                            .map(
+                              (t) => _ValueDataCell(
+                                context,
+                                e.value.item2[t],
+                                t.unit(context),
+                              ),
+                            )
+                            .toList(),
+                  ),
+                )
+                .toList(growable: false) +
+            _repo.averages.entries
+                .map(
+                  (e) => DataRow(
+                    cells: <DataCell>[
+                          _InfoDataCell(
+                            sprintf(
+                              S.of(context).average,
+                              [_repo.powadors[e.key]!.item1],
+                            ),
+                          )
+                        ] +
+                        Trend.values
+                            .map(
+                              (t) => _ValueDataCell(
+                                context,
+                                e.value[t],
+                                t.unit(context),
+                              ),
+                            )
+                            .toList(),
+                  ),
+                )
+                .toList(growable: false),
       );
-
-  double? getAverage(Trend t) =>
-      _repo.averages == null ? null : _repo.averages![t];
 }
 
 class _EmptyDataColumn extends DataColumn {
@@ -94,7 +115,10 @@ class _ValueDataCell extends DataCell {
       : super(
           Center(
             child: Text(
-              sprintf(S.of(context).amount_format, [amount ?? '', unit]),
+              sprintf(
+                S.of(context).amount_format,
+                [amount?.toStringAsFixed(2) ?? '', unit],
+              ),
               textAlign: TextAlign.center,
             ),
           ),

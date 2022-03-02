@@ -1,6 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:powasys_frontend/bloc/blocs/data_bloc.dart';
+import 'package:powasys_frontend/bloc/events.dart';
 import 'package:powasys_frontend/bloc/repo.dart';
 import 'package:powasys_frontend/data/trend.dart';
 import 'package:powasys_frontend/generated/l10n.dart';
@@ -14,6 +16,9 @@ class TrendDiagram extends StatefulWidget {
 }
 
 class _TrendDiagramState extends State<TrendDiagram> {
+  static const double hourInMs = 1000 * 60 * 60;
+  static const double dayInMs = hourInMs * 24;
+
   final DataBloc _bloc = DataBloc();
   final PowaSysRepo _repo = PowaSysRepo();
 
@@ -26,107 +31,150 @@ class _TrendDiagramState extends State<TrendDiagram> {
   }
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-        height: 300,
-        child: Padding(
-          padding: const EdgeInsets.only(right: 16, left: 16),
-          child: LineChart(
-            LineChartData(
-              lineTouchData: LineTouchData(
-                touchTooltipData: LineTouchTooltipData(
-                  getTooltipItems: (touchedSpots) => touchedSpots
-                      .map(
-                        (spot) => LineTooltipItem(
-                          sprintf(S.of(context).amount_format, [
-                            '${spot.y}',
-                            Trend.values[spot.barIndex].unit(context),
-                          ]),
-                          TextStyle(
-                            color: spot.bar.colors[0],
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
+  Widget build(BuildContext context) {
+    final now = DateTime.now().millisecondsSinceEpoch.toDouble();
+    return Column(
+      children: [
+        SizedBox(
+          height: 300,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16, left: 16),
+            child: LineChart(
+              LineChartData(
+                lineTouchData: LineTouchData(
+                  touchTooltipData: LineTouchTooltipData(
+                    getTooltipItems: (touchedSpots) => touchedSpots
+                        .map(
+                          (spot) => LineTooltipItem(
+                            sprintf(S.of(context).amount_format, [
+                              '${spot.y}',
+                              _repo.currentTrend.unit(context),
+                            ]),
+                            TextStyle(
+                              color: spot.bar.colors[0],
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
                           ),
-                        ),
-                      )
-                      .toList(),
-                  tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
+                        )
+                        .toList(),
+                    tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
+                  ),
+                  touchCallback: (touchEvent, touchResponse) {},
+                  handleBuiltInTouches: true,
                 ),
-                touchCallback: (touchEvent, touchResponse) {},
-                handleBuiltInTouches: true,
-              ),
-              gridData: FlGridData(
-                show: false,
-              ),
-              titlesData: FlTitlesData(
-                bottomTitles: SideTitles(
-                  showTitles: true,
-                  reservedSize: 22,
-                  getTextStyles: (ctx, value) => const TextStyle(
-                    color: Colors.blueGrey,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                  margin: 10,
-                  getTitles: (value) => '$value',
+                gridData: FlGridData(
+                  show: false,
                 ),
-                leftTitles: SideTitles(
-                  showTitles: false,
-                ),
-              ),
-              borderData: FlBorderData(
-                show: true,
-                border: const Border(
-                  bottom: BorderSide(
-                    color: Colors.indigo,
-                    width: 4,
+                titlesData: FlTitlesData(
+                  topTitles: SideTitles(
+                    showTitles: false,
                   ),
-                  left: BorderSide(
-                    color: Colors.transparent,
+                  bottomTitles: SideTitles(
+                    showTitles: true,
+                    reservedSize: 22,
+                    interval: hourInMs,
+                    getTextStyles: (ctx, value) => const TextStyle(
+                      color: Colors.blueGrey,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                    margin: 10,
+                    getTitles: (value) => DateFormat.Hm().format(
+                      DateTime.fromMillisecondsSinceEpoch(
+                        value.toInt(),
+                      ),
+                    ),
                   ),
-                  right: BorderSide(
-                    color: Colors.transparent,
-                  ),
-                  top: BorderSide(
-                    color: Colors.transparent,
+                  leftTitles: SideTitles(
+                    showTitles: false,
                   ),
                 ),
+                borderData: FlBorderData(
+                  show: true,
+                  border: const Border(
+                    bottom: BorderSide(
+                      color: Colors.indigo,
+                      width: 4,
+                    ),
+                    left: BorderSide(
+                      color: Colors.transparent,
+                    ),
+                    right: BorderSide(
+                      color: Colors.transparent,
+                    ),
+                    top: BorderSide(
+                      color: Colors.transparent,
+                    ),
+                  ),
+                ),
+                minX: now - dayInMs,
+                maxX: now,
+                // TODO(Nico): Adjust these values (dynamically?).
+                minY: 0,
+                maxY: 721,
+                lineBarsData: linesBarData(),
               ),
-              minX: 0,
-              maxX: 23,
-              minY: 0,
-              maxY: 721,
-              lineBarsData: linesBarData(),
             ),
           ),
         ),
-      );
+        Column(
+          children: _repo.powadors.entries
+              .map(
+                (e) => CheckboxListTile(
+                  title: Text(e.value.item1),
+                  value: !_repo.disabledPowadors.contains(e.key),
+                  onChanged: (value) {
+                    setState(() {
+                      if (value ?? false) {
+                        _repo.disabledPowadors.remove(e.key);
+                      } else {
+                        _repo.disabledPowadors.add(e.key);
+                      }
+                      _bloc.add(const FetchData());
+                    });
+                  },
+                ),
+              )
+              .toList(growable: false),
+        ),
+        Column(
+          children: Trend.values
+              .map(
+                (t) => RadioListTile<Trend>(
+                  title: Text(t.name(context)),
+                  value: t,
+                  groupValue: _repo.currentTrend,
+                  onChanged: (value) {
+                    setState(() {
+                      if (value != null) {
+                        _repo.currentTrend = value;
+                        _bloc.add(const FetchData());
+                      }
+                    });
+                  },
+                ),
+              )
+              .toList(growable: false),
+        ),
+      ],
+    );
+  }
 
   List<LineChartBarData> linesBarData() {
-    final d = _repo.data ?? {};
-    final spots = <Trend, List<FlSpot>>{};
-    for (final dtm in d.entries) {
-      for (final td in dtm.value.entries) {
-        spots[td.key] ??= [];
-        spots[td.key]!.add(FlSpot(dtm.key.hour as double, td.value));
-      }
-    }
-    for (final l in spots.values) {
-      l.sort((s1, s2) => s1.x.compareTo(s2.x));
-    }
-    return Trend.values
+    final d = _repo.data;
+    return d.entries
         .map(
-          (t) => LineChartBarData(
-            spots: spots[t],
-            isCurved: true,
-            colors: [
-              t.color,
-            ],
+          (e) => LineChartBarData(
+            spots: e.value,
+            isCurved: false,
+            colors: [_repo.powadors[e.key]!.item2],
             isStrokeCapRound: true,
             belowBarData: BarAreaData(
               show: false,
             ),
           ),
         )
-        .toList();
+        .toList(growable: false);
   }
 }
