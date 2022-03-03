@@ -12,23 +12,21 @@ enum Trend {
   temperature,
 }
 
-// TODO(Nico): Adjust values here!
-
 extension TrendMeta on Trend {
   String name(BuildContext context) {
     switch (this) {
       case Trend.genVoltage:
-        return S.of(context).voltage;
+        return S.of(context).genVoltage;
       case Trend.genCurrent:
-        return S.of(context).current_;
+        return S.of(context).genCurrent;
       case Trend.genPower:
-        return S.of(context).power;
+        return S.of(context).genPower;
       case Trend.netVoltage:
-        return S.of(context).voltage;
+        return S.of(context).netVoltage;
       case Trend.netCurrent:
-        return S.of(context).current_;
+        return S.of(context).netCurrent;
       case Trend.netPower:
-        return S.of(context).power;
+        return S.of(context).netPower;
       case Trend.temperature:
         return S.of(context).temperature;
     }
@@ -50,25 +48,6 @@ extension TrendMeta on Trend {
         return S.of(context).power_unit;
       case Trend.temperature:
         return S.of(context).temperature_unit;
-    }
-  }
-
-  Color get color {
-    switch (this) {
-      case Trend.genVoltage:
-        return Colors.indigo;
-      case Trend.genCurrent:
-        return Colors.lightBlueAccent;
-      case Trend.genPower:
-        return Colors.deepOrangeAccent;
-      case Trend.netVoltage:
-        return Colors.indigo;
-      case Trend.netCurrent:
-        return Colors.lightBlueAccent;
-      case Trend.netPower:
-        return Colors.deepOrangeAccent;
-      case Trend.temperature:
-        return Colors.greenAccent;
     }
   }
 

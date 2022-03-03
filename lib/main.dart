@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:powasys_frontend/config/config.dart';
@@ -10,6 +11,10 @@ import 'package:powasys_frontend/themes/light_theme.dart';
 late PackageInfo packageInfo;
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await dotenv.load();
+
   await initConfig();
   packageInfo = await PackageInfo.fromPlatform();
   runApp(const PowaSysFrontend());

@@ -24,17 +24,29 @@
   "@license": {
     "description": "The text for the licenses button in the header"
   },
-  "voltage": "Voltage",
-  "@voltage": {
-    "description": "The name of physical voltage units"
+  "genVoltage": "Gen-Voltage",
+  "@genVoltage": {
+    "description": "The name of generated physical voltage units"
   },
-  "current_": "Current",
-  "@current_": {
-    "description": "The name of physical current units"
+  "genCurrent": "Gen-Current",
+  "@genCurrent": {
+    "description": "The name of generated physical current units"
   },
-  "power": "Power",
-  "@power": {
-    "description": "The name of physical power units"
+  "genPower": "Gen-Power",
+  "@genPower": {
+    "description": "The name of generated physical power units"
+  },
+  "netVoltage": "Net-Voltage",
+  "@netVoltage": {
+    "description": "The name of net physical voltage units"
+  },
+  "netCurrent": "Net-Current",
+  "@netCurrent": {
+    "description": "The name of net physical current units"
+  },
+  "netPower": "Net-Power",
+  "@netPower": {
+    "description": "The name of net physical power units"
   },
   "temperature": "Temperature",
   "@temperature": {

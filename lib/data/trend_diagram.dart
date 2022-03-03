@@ -110,9 +110,8 @@ class _TrendDiagramState extends State<TrendDiagram> {
                 ),
                 minX: now - dayInMs,
                 maxX: now,
-                // TODO(Nico): Adjust these values (dynamically?).
-                minY: 0,
-                maxY: 721,
+                minY: _repo.min,
+                maxY: _repo.max,
                 lineBarsData: linesBarData(),
               ),
             ),

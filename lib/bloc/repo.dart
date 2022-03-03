@@ -12,6 +12,8 @@ class PowaSysRepo {
   final List<int> disabledPowadors = [];
   Trend currentTrend = Trend.netPower;
 
+  double min = 0;
+  double max = 0;
   Map<int, Tuple2<String, Color>> powadors = {};
   Map<int, Tuple2<DateTime, Map<Trend, double>>> latest = {};
   Map<int, Map<Trend, double>> averages = {};
