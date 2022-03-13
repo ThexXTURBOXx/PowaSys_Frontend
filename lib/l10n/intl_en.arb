@@ -60,6 +60,10 @@
   "@average": {
     "description": "The table entry for averages. The place holder gets replaced by the Powador name"
   },
+  "max": "Maximum (%s):",
+  "@max": {
+    "description": "The table entry for maximum values. The place holder gets replaced by the Powador name"
+  },
   "amount_format": "%s %s",
   "@amount_format": {
     "description": "The format for physical amounts. The first wildcard gets replaced by the value and the second one by the unit abbreviation"

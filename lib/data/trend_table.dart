@@ -77,6 +77,29 @@ class _TrendTableState extends State<TrendTable> {
                             .toList(),
                   ),
                 )
+                .toList(growable: false) +
+            _repo.max.entries
+                .map(
+                  (e) => DataRow(
+                    cells: <DataCell>[
+                          _InfoDataCell(
+                            sprintf(
+                              S.of(context).max,
+                              [_repo.powadors[e.key]!.item1],
+                            ),
+                          )
+                        ] +
+                        Trend.values
+                            .map(
+                              (t) => _ValueDataCell(
+                                context,
+                                e.value[t],
+                                t.unit(context),
+                              ),
+                            )
+                            .toList(),
+                  ),
+                )
                 .toList(growable: false),
       );
 }

@@ -17,7 +17,7 @@ jobs:
       - run: flutter pub global activate intl_utils
       - run: flutter pub get
       - run: flutter pub global run intl_utils:generate
-      - run: echo -e "APIBaseURL = http://powasys.local:8080" > .env
+      - run: echo -e "APIBaseURL = http://powasys.fritz.box:8080" > .env
       - run: flutter build web
       - run: cd build/web && zip -r release.zip * && mv release.zip ../..
       - uses: softprops/action-gh-release@v1

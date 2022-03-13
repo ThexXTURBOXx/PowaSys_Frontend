@@ -15,6 +15,7 @@
   "temperature": "Temperatur",
   "currently": "Derzeit (%s, %s):",
   "average": "Durchschnitt (%s):",
+  "max": "Maximum (%s):",
   "amount_format": "%s %s",
   "voltage_unit": "V",
   "current_unit": "A",

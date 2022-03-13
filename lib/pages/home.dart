@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:powasys_frontend/bloc/blocs/data_bloc.dart';
 import 'package:powasys_frontend/bloc/events.dart';
+import 'package:powasys_frontend/data/divider_settings.dart';
+import 'package:powasys_frontend/data/powa_settings.dart';
 import 'package:powasys_frontend/data/trend_diagram.dart';
+import 'package:powasys_frontend/data/trend_settings.dart';
 import 'package:powasys_frontend/data/trend_table.dart';
 import 'package:powasys_frontend/generated/l10n.dart';
 import 'package:powasys_frontend/navigation/footer.dart';
@@ -42,6 +45,9 @@ class _HomeState extends State<Home> {
               children: const [
                 TrendTable(),
                 TrendDiagram(),
+                DividerSettings(),
+                PowaSettings(),
+                TrendSettings(),
               ],
             ),
           ),

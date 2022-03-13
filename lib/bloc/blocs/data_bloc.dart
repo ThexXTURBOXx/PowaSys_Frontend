@@ -44,11 +44,13 @@ class DataBloc extends Bloc<DataEvent, PowaSysState> {
       }
 
       _repo.powadors = powas;
-      final response24h = await _repo.client.get(Uri.parse('$apiBaseUrl/24h'));
+      final response24h = await _repo.client
+          .get(Uri.parse('$apiBaseUrl/24h?minDiv=${_repo.minDiv}'));
       final parsed24h = json.decode(response24h.body);
 
-      final averages = <int, Map<Trend, double>>{};
       final latest = <int, Tuple2<DateTime, Map<Trend, double>>>{};
+      final averages = <int, Map<Trend, double>>{};
+      final max = <int, Map<Trend, double>>{};
       final data = Map<int, List<FlSpot>>.fromEntries(
         powas.keys.map((e) => MapEntry(e, [])),
       );
@@ -71,14 +73,22 @@ class DataBloc extends Bloc<DataEvent, PowaSysState> {
                 );
       }
 
-      var min = 0.0;
-      var max = 0.0;
+      for (final entry in parsed24h['max']) {
+        max[int.parse(entry['powadorId'].toString())] =
+            Trend.values.asMap().map(
+                  (id, trend) =>
+                      MapEntry(trend, double.parse(entry[trend.id].toString())),
+                );
+      }
+
+      var minVal = 0.0;
+      var maxVal = 0.0;
       for (final entry in parsed24h['data']) {
         final powaId = int.parse(entry['powadorId'].toString());
         if (!_repo.disabledPowadors.contains(powaId)) {
           final value = double.parse(entry[_repo.currentTrend.id].toString());
-          min = value < min ? value : min;
-          max = value > max ? value : max;
+          minVal = value < minVal ? value : minVal;
+          maxVal = value > maxVal ? value : maxVal;
           data[powaId]!.add(
             FlSpot(
               DateTime.parse(entry['time'].toString())
@@ -90,10 +100,11 @@ class DataBloc extends Bloc<DataEvent, PowaSysState> {
         }
       }
 
-      _repo.min = min;
-      _repo.max = max;
+      _repo.minVal = minVal;
+      _repo.maxVal = maxVal;
       _repo.latest = latest;
       _repo.averages = averages;
+      _repo.max = max;
       _repo.data = data;
 
       emit(PowaSysState.fetchedData);

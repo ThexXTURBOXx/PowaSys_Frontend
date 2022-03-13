@@ -12,11 +12,14 @@ class PowaSysRepo {
   final List<int> disabledPowadors = [];
   Trend currentTrend = Trend.netPower;
 
-  double min = 0;
-  double max = 0;
+  int minDiv = 10;
+
+  double minVal = 0;
+  double maxVal = 0;
   Map<int, Tuple2<String, Color>> powadors = {};
   Map<int, Tuple2<DateTime, Map<Trend, double>>> latest = {};
   Map<int, Map<Trend, double>> averages = {};
+  Map<int, Map<Trend, double>> max = {};
   Map<int, List<FlSpot>> data = {};
 
   factory PowaSysRepo() => _singleton;
