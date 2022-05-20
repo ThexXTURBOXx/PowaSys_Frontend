@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:powasys_frontend/bloc/blocs/data_bloc.dart';
-import 'package:powasys_frontend/bloc/events.dart';
-import 'package:powasys_frontend/bloc/repo.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:powasys_frontend/bloc/cubits/data_cubit.dart';
+import 'package:powasys_frontend/bloc/states.dart';
+import 'package:powasys_frontend/constants.dart';
 
 class PowaSettings extends StatefulWidget {
   const PowaSettings({super.key});
@@ -11,28 +12,31 @@ class PowaSettings extends StatefulWidget {
 }
 
 class _PowaSettingsState extends State<PowaSettings> {
-  final DataBloc _bloc = DataBloc();
-  final PowaSysRepo _repo = PowaSysRepo();
-
   @override
-  Widget build(BuildContext ctx) => Column(
-        children: _repo.powadors.entries
-            .map(
-              (e) => CheckboxListTile(
-                title: Text(e.value.item1),
-                value: !_repo.disabledPowadors.contains(e.key),
-                onChanged: (value) {
-                  setState(() {
-                    if (value ?? false) {
-                      _repo.disabledPowadors.remove(e.key);
-                    } else {
-                      _repo.disabledPowadors.add(e.key);
-                    }
-                    _bloc.add(const FetchData());
-                  });
-                },
-              ),
-            )
-            .toList(growable: false),
+  Widget build(BuildContext ctx) => BlocBuilder<DataCubit, DataState>(
+        builder: (context, state) => Column(
+          children: state.powadors.entries
+              .map(
+                (e) => CheckboxListTile(
+                  title: Text(e.value.item1),
+                  value: !disabledPowadors.contains(e.key),
+                  onChanged: (value) {
+                    setState(() {
+                      if (value ?? false) {
+                        disabledPowadors.remove(e.key);
+                      } else {
+                        disabledPowadors.add(e.key);
+                      }
+                      context.read<DataCubit>().fetchData(
+                            disabledPowadors: disabledPowadors,
+                            currentTrend: currentTrend,
+                            minDiv: minDiv,
+                          );
+                    });
+                  },
+                ),
+              )
+              .toList(growable: false),
+        ),
       );
 }

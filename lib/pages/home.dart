@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:powasys_frontend/bloc/blocs/data_bloc.dart';
-import 'package:powasys_frontend/bloc/events.dart';
+import 'package:powasys_frontend/bloc/cubits/data_cubit.dart';
+import 'package:powasys_frontend/constants.dart';
 import 'package:powasys_frontend/data/divider_settings.dart';
 import 'package:powasys_frontend/data/powa_settings.dart';
 import 'package:powasys_frontend/data/trend_diagram.dart';
@@ -23,10 +24,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final DataBloc _bloc = DataBloc();
-
-  _HomeState() {
-    _bloc.add(const FetchData());
+  @override
+  void initState() {
+    super.initState();
+    context.read<DataCubit>().fetchData(
+          disabledPowadors: disabledPowadors,
+          currentTrend: currentTrend,
+          minDiv: minDiv,
+        );
   }
 
   @override
@@ -56,7 +61,11 @@ class _HomeState extends State<Home> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            _bloc.add(const FetchData());
+            context.read<DataCubit>().fetchData(
+                  disabledPowadors: disabledPowadors,
+                  currentTrend: currentTrend,
+                  minDiv: minDiv,
+                );
           },
           tooltip: S.of(context).refresh,
           child: const Icon(Icons.refresh),

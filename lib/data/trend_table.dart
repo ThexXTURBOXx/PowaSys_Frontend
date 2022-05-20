@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:powasys_frontend/bloc/blocs/data_bloc.dart';
-import 'package:powasys_frontend/bloc/repo.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:powasys_frontend/bloc/cubits/data_cubit.dart';
+import 'package:powasys_frontend/bloc/states.dart';
 import 'package:powasys_frontend/data/trend.dart';
 import 'package:powasys_frontend/generated/l10n.dart';
 import 'package:sprintf/sprintf.dart';
@@ -14,93 +15,85 @@ class TrendTable extends StatefulWidget {
 }
 
 class _TrendTableState extends State<TrendTable> {
-  final DataBloc _bloc = DataBloc();
-  final PowaSysRepo _repo = PowaSysRepo();
-
   @override
-  void initState() {
-    super.initState();
-    _bloc.stream.listen((event) {
-      setState(() {});
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) => DataTable(
-        columns: <DataColumn>[const _EmptyDataColumn()] +
-            Trend.values.map((v) => _DataColumn(v.name(context))).toList(),
-        rows: _repo.latest.entries
-                .map(
-                  (e) => DataRow(
-                    cells: <DataCell>[
-                          _InfoDataCell(
-                            sprintf(
-                              S.of(context).currently,
-                              [
-                                _repo.powadors[e.key]!.item1,
-                                '${e.value.item1}'
-                              ],
-                            ),
-                          )
-                        ] +
-                        Trend.values
-                            .map(
-                              (t) => _ValueDataCell(
-                                context,
-                                e.value.item2[t],
-                                t.unit(context),
+  Widget build(BuildContext ctx) => BlocConsumer<DataCubit, DataState>(
+        listener: (context, state) => setState(() {}),
+        builder: (context, state) => DataTable(
+          columns: <DataColumn>[const _EmptyDataColumn()] +
+              Trend.values.map((v) => _DataColumn(v.name(context))).toList(),
+          rows: state.latest.entries
+                  .map(
+                    (e) => DataRow(
+                      cells: <DataCell>[
+                            _InfoDataCell(
+                              sprintf(
+                                S.of(context).currently,
+                                [
+                                  state.powadors[e.key]!.item1,
+                                  '${e.value.item1}'
+                                ],
                               ),
                             )
-                            .toList(),
-                  ),
-                )
-                .toList(growable: false) +
-            _repo.averages.entries
-                .map(
-                  (e) => DataRow(
-                    cells: <DataCell>[
-                          _InfoDataCell(
-                            sprintf(
-                              S.of(context).average,
-                              [_repo.powadors[e.key]!.item1],
-                            ),
-                          )
-                        ] +
-                        Trend.values
-                            .map(
-                              (t) => _ValueDataCell(
-                                context,
-                                e.value[t],
-                                t.unit(context),
+                          ] +
+                          Trend.values
+                              .map(
+                                (t) => _ValueDataCell(
+                                  context,
+                                  e.value.item2[t],
+                                  t.unit(context),
+                                ),
+                              )
+                              .toList(),
+                    ),
+                  )
+                  .toList(growable: false) +
+              state.averages.entries
+                  .map(
+                    (e) => DataRow(
+                      cells: <DataCell>[
+                            _InfoDataCell(
+                              sprintf(
+                                S.of(context).average,
+                                [state.powadors[e.key]!.item1],
                               ),
                             )
-                            .toList(),
-                  ),
-                )
-                .toList(growable: false) +
-            _repo.max.entries
-                .map(
-                  (e) => DataRow(
-                    cells: <DataCell>[
-                          _InfoDataCell(
-                            sprintf(
-                              S.of(context).max,
-                              [_repo.powadors[e.key]!.item1],
-                            ),
-                          )
-                        ] +
-                        Trend.values
-                            .map(
-                              (t) => _ValueDataCell(
-                                context,
-                                e.value[t],
-                                t.unit(context),
+                          ] +
+                          Trend.values
+                              .map(
+                                (t) => _ValueDataCell(
+                                  context,
+                                  e.value[t],
+                                  t.unit(context),
+                                ),
+                              )
+                              .toList(),
+                    ),
+                  )
+                  .toList(growable: false) +
+              state.max.entries
+                  .map(
+                    (e) => DataRow(
+                      cells: <DataCell>[
+                            _InfoDataCell(
+                              sprintf(
+                                S.of(context).max,
+                                [state.powadors[e.key]!.item1],
                               ),
                             )
-                            .toList(),
-                  ),
-                )
-                .toList(growable: false),
+                          ] +
+                          Trend.values
+                              .map(
+                                (t) => _ValueDataCell(
+                                  context,
+                                  e.value[t],
+                                  t.unit(context),
+                                ),
+                              )
+                              .toList(),
+                    ),
+                  )
+                  .toList(growable: false),
+        ),
       );
 }
 

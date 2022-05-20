@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:powasys_frontend/bloc/cubits/data_cubit.dart';
+import 'package:powasys_frontend/bloc/repos/data_repo.dart';
 import 'package:powasys_frontend/config/config.dart';
 import 'package:powasys_frontend/constants.dart';
 import 'package:powasys_frontend/generated/l10n.dart';
@@ -35,23 +38,37 @@ class _PowaSysFrontendWidgetState extends State<PowaSysFrontendWidget> {
   }
 
   @override
-  Widget build(BuildContext context) => MaterialApp(
-        onGenerateTitle: (context) => S.of(context).app_name,
-        debugShowCheckedModeBanner: false,
-        theme: lightTheme,
-        darkTheme: darkTheme,
-        themeMode: themeSettings.currentTheme,
-        locale: localeSettings.currentLocale,
-        localizationsDelegates: const [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
+  Widget build(BuildContext context) => MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider<DataRepo>(
+            create: (context) => DataRepo(),
+          ),
         ],
-        supportedLocales: S.delegate.supportedLocales,
-        initialRoute: routeHome,
-        routes: {
-          routeHome: (context) => Home(packageInfo),
-        },
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider<DataCubit>(
+              create: (context) => DataCubit(context.read<DataRepo>()),
+            ),
+          ],
+          child: MaterialApp(
+            onGenerateTitle: (context) => S.of(context).app_name,
+            debugShowCheckedModeBanner: false,
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            themeMode: themeSettings.currentTheme,
+            locale: localeSettings.currentLocale,
+            localizationsDelegates: const [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: S.delegate.supportedLocales,
+            initialRoute: routeHome,
+            routes: {
+              routeHome: (context) => Home(packageInfo),
+            },
+          ),
+        ),
       );
 }
