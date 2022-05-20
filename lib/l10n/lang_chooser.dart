@@ -12,7 +12,7 @@ const Map<String, Language> languages = {
 const Language fallbackLang = english;
 
 class LanguageChooser extends StatefulWidget {
-  const LanguageChooser({Key? key}) : super(key: key);
+  const LanguageChooser({super.key});
 
   @override
   State<StatefulWidget> createState() => LanguageChooserState();

@@ -4,7 +4,7 @@ import 'package:powasys_frontend/bloc/events.dart';
 import 'package:powasys_frontend/bloc/repo.dart';
 
 class DividerSettings extends StatefulWidget {
-  const DividerSettings({Key? key}) : super(key: key);
+  const DividerSettings({super.key});
 
   @override
   State<StatefulWidget> createState() => _DividerSettingsState();

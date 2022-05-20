@@ -4,7 +4,7 @@ import 'package:powasys_frontend/bloc/events.dart';
 import 'package:powasys_frontend/bloc/repo.dart';
 
 class PowaSettings extends StatefulWidget {
-  const PowaSettings({Key? key}) : super(key: key);
+  const PowaSettings({super.key});
 
   @override
   State<StatefulWidget> createState() => _PowaSettingsState();

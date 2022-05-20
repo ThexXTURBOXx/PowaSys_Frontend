@@ -5,7 +5,7 @@ import 'package:powasys_frontend/l10n/lang_chooser.dart';
 import 'package:sprintf/sprintf.dart';
 
 class Footer extends StatelessWidget {
-  const Footer({Key? key}) : super(key: key);
+  const Footer({super.key});
 
   @override
   Widget build(BuildContext context) {

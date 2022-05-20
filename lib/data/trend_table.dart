@@ -7,7 +7,7 @@ import 'package:powasys_frontend/generated/l10n.dart';
 import 'package:sprintf/sprintf.dart';
 
 class TrendTable extends StatefulWidget {
-  const TrendTable({Key? key}) : super(key: key);
+  const TrendTable({super.key});
 
   @override
   State<StatefulWidget> createState() => _TrendTableState();

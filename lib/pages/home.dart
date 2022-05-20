@@ -16,7 +16,7 @@ const routeHome = '/';
 class Home extends StatefulWidget {
   final PackageInfo packageInfo;
 
-  const Home(this.packageInfo, {Key? key}) : super(key: key);
+  const Home(this.packageInfo, {super.key});
 
   @override
   State<StatefulWidget> createState() => _HomeState();
@@ -40,7 +40,7 @@ class _HomeState extends State<Home> {
         ),
         bottomNavigationBar: const Footer(),
         body: Scrollbar(
-          isAlwaysShown: true,
+          thumbVisibility: true,
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -3,16 +3,18 @@ import 'package:flutter/widgets.dart';
 import 'package:powasys_frontend/generated/l10n.dart';
 
 enum Trend {
-  genVoltage,
-  genCurrent,
-  genPower,
-  netVoltage,
-  netCurrent,
-  netPower,
-  temperature,
-}
+  genVoltage(id: 'genVoltage'),
+  genCurrent(id: 'genCurrent'),
+  genPower(id: 'genPower'),
+  netVoltage(id: 'netVoltage'),
+  netCurrent(id: 'netCurrent'),
+  netPower(id: 'netPower'),
+  temperature(id: 'temperature');
 
-extension TrendMeta on Trend {
+  final String id;
+
+  const Trend({required this.id});
+
   String name(BuildContext context) {
     switch (this) {
       case Trend.genVoltage:
@@ -48,25 +50,6 @@ extension TrendMeta on Trend {
         return S.of(context).power_unit;
       case Trend.temperature:
         return S.of(context).temperature_unit;
-    }
-  }
-
-  String get id {
-    switch (this) {
-      case Trend.genVoltage:
-        return 'genVoltage';
-      case Trend.genCurrent:
-        return 'genCurrent';
-      case Trend.genPower:
-        return 'genPower';
-      case Trend.netVoltage:
-        return 'netVoltage';
-      case Trend.netCurrent:
-        return 'netCurrent';
-      case Trend.netPower:
-        return 'netPower';
-      case Trend.temperature:
-        return 'temperature';
     }
   }
 }

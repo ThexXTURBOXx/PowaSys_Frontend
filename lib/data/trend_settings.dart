@@ -5,7 +5,7 @@ import 'package:powasys_frontend/bloc/repo.dart';
 import 'package:powasys_frontend/data/trend.dart';
 
 class TrendSettings extends StatefulWidget {
-  const TrendSettings({Key? key}) : super(key: key);
+  const TrendSettings({super.key});
 
   @override
   State<StatefulWidget> createState() => _TrendSettingsState();

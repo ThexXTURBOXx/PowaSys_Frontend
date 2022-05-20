@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:powasys_frontend/bloc/blocs/data_bloc.dart';
 import 'package:powasys_frontend/bloc/repo.dart';
-import 'package:powasys_frontend/data/trend.dart';
 import 'package:powasys_frontend/generated/l10n.dart';
 import 'package:sprintf/sprintf.dart';
 
 class TrendDiagram extends StatefulWidget {
-  const TrendDiagram({Key? key}) : super(key: key);
+  const TrendDiagram({super.key});
 
   @override
   State<StatefulWidget> createState() => _TrendDiagramState();
@@ -125,20 +124,17 @@ class _TrendDiagramState extends State<TrendDiagram> {
 
   double get now => DateTime.now().millisecondsSinceEpoch.toDouble();
 
-  List<LineChartBarData> linesBarData() {
-    final d = _repo.data;
-    return d.entries
-        .map(
-          (e) => LineChartBarData(
-            spots: e.value,
-            isCurved: false,
-            color: _repo.powadors[e.key]!.item2,
-            isStrokeCapRound: true,
-            belowBarData: BarAreaData(
-              show: false,
-            ),
+  List<LineChartBarData> linesBarData() => _repo.data.entries
+      .map(
+        (e) => LineChartBarData(
+          spots: e.value,
+          isCurved: false,
+          color: _repo.powadors[e.key]!.item2,
+          isStrokeCapRound: true,
+          belowBarData: BarAreaData(
+            show: false,
           ),
-        )
-        .toList(growable: false);
-  }
+        ),
+      )
+      .toList(growable: false);
 }

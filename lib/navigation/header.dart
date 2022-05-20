@@ -8,7 +8,7 @@ import 'package:powasys_frontend/util/navigation.dart';
 import 'package:sprintf/sprintf.dart';
 
 class Logo extends StatelessWidget {
-  const Logo({Key? key}) : super(key: key);
+  const Logo({super.key});
 
   @override
   Widget build(BuildContext context) => TextButton.icon(
@@ -19,7 +19,7 @@ class Logo extends StatelessWidget {
 }
 
 class HomeButton extends StatelessWidget {
-  const HomeButton({Key? key}) : super(key: key);
+  const HomeButton({super.key});
 
   @override
   Widget build(BuildContext context) => TextButton.icon(
@@ -32,7 +32,7 @@ class HomeButton extends StatelessWidget {
 class PopMenu extends StatelessWidget {
   final PackageInfo packageInfo;
 
-  const PopMenu(this.packageInfo, {Key? key}) : super(key: key);
+  const PopMenu(this.packageInfo, {super.key});
 
   @override
   Widget build(BuildContext context) => PopupMenuButton<PopupItems>(
