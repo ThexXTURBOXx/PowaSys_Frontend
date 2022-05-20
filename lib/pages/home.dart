@@ -11,6 +11,8 @@ import 'package:powasys_frontend/generated/l10n.dart';
 import 'package:powasys_frontend/navigation/footer.dart';
 import 'package:powasys_frontend/navigation/header.dart';
 
+const routeHome = '/';
+
 class Home extends StatefulWidget {
   final PackageInfo packageInfo;
 

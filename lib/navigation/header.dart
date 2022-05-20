@@ -3,7 +3,9 @@ import 'package:flutter/widgets.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:powasys_frontend/config/config.dart';
 import 'package:powasys_frontend/generated/l10n.dart';
+import 'package:powasys_frontend/pages/home.dart';
 import 'package:powasys_frontend/util/navigation.dart';
+import 'package:sprintf/sprintf.dart';
 
 class Logo extends StatelessWidget {
   const Logo({Key? key}) : super(key: key);
@@ -12,7 +14,7 @@ class Logo extends StatelessWidget {
   Widget build(BuildContext context) => TextButton.icon(
         icon: const Icon(Icons.code),
         label: Text(S.of(context).app_name),
-        onPressed: () => navigateTo(context, '/'),
+        onPressed: () => navigateTo(context, routeHome),
       );
 }
 
@@ -23,7 +25,7 @@ class HomeButton extends StatelessWidget {
   Widget build(BuildContext context) => TextButton.icon(
         icon: const Icon(Icons.home_outlined),
         label: Text(S.of(context).home),
-        onPressed: () => navigateTo(context, '/'),
+        onPressed: () => navigateTo(context, routeHome),
       );
 }
 
@@ -45,18 +47,21 @@ class PopMenu extends StatelessWidget {
         onSelected: (d) {
           switch (d) {
             case PopupItems.license:
-              showLicensePage(
+              showAboutDialog(
                 context: context,
+                applicationName: S.of(context).app_name,
+                applicationLegalese:
+                    sprintf(S.of(context).copyright, [DateTime.now().year]),
                 applicationVersion: packageInfo.version,
                 // TODO(Nico): Icon?
+                /*applicationIcon: Image.asset(
+                  'assets/logo.png',
+                  width: 50,
+                ),*/
                 applicationIcon: const Icon(
                   Icons.code,
                   size: 50,
                 ),
-                /*applicationIcon: Image.asset(
-                        'assets/logo.png',
-                        width: 50,
-                      ),*/
               );
               break;
             case PopupItems.theme:
@@ -76,19 +81,12 @@ class PopMenu extends StatelessWidget {
 }
 
 enum PopupItems {
-  license,
-  theme,
-}
+  theme(icon: Icons.brightness_medium),
+  license(icon: Icons.article_outlined);
 
-extension PopupItemsMeta on PopupItems {
-  IconData get icon {
-    switch (this) {
-      case PopupItems.license:
-        return Icons.article_outlined;
-      case PopupItems.theme:
-        return Icons.brightness_medium;
-    }
-  }
+  final IconData icon;
+
+  const PopupItems({required this.icon});
 
   String name(BuildContext context) {
     switch (this) {

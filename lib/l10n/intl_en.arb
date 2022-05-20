@@ -20,7 +20,7 @@
   "@contact": {
     "description": "The text for the contact button in the footer"
   },
-  "license": "Licenses",
+  "license": "About...",
   "@license": {
     "description": "The text for the licenses button in the header"
   },

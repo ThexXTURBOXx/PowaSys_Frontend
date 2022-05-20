@@ -48,7 +48,7 @@ class _TrendDiagramState extends State<TrendDiagram> {
                                 _repo.currentTrend.unit(context),
                               ]),
                               TextStyle(
-                                color: spot.bar.colors[0],
+                                color: spot.bar.color,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14,
                               ),
@@ -64,27 +64,33 @@ class _TrendDiagramState extends State<TrendDiagram> {
                     show: false,
                   ),
                   titlesData: FlTitlesData(
-                    topTitles: SideTitles(
-                      showTitles: false,
-                    ),
-                    bottomTitles: SideTitles(
-                      showTitles: true,
-                      reservedSize: 22,
-                      interval: hourInMs,
-                      getTextStyles: (ctx, value) => const TextStyle(
-                        color: Colors.blueGrey,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                    show: true,
+                    topTitles: AxisTitles(),
+                    leftTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        // TODO(Nico): Why the fuck does this not work?
+                        showTitles: false,
+                        interval: 100,
                       ),
-                      margin: 10,
-                      getTitles: (value) => DateFormat.Hm().format(
-                        DateTime.fromMillisecondsSinceEpoch(
-                          value.toInt(),
+                    ),
+                    rightTitles: AxisTitles(),
+                    bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        interval: hourInMs,
+                        getTitlesWidget: (value, meta) => Text(
+                          DateFormat.Hm().format(
+                            DateTime.fromMillisecondsSinceEpoch(
+                              value.toInt(),
+                            ),
+                          ),
+                          style: const TextStyle(
+                            color: Colors.blueGrey,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                         ),
                       ),
-                    ),
-                    leftTitles: SideTitles(
-                      showTitles: false,
                     ),
                   ),
                   borderData: FlBorderData(
@@ -126,7 +132,7 @@ class _TrendDiagramState extends State<TrendDiagram> {
           (e) => LineChartBarData(
             spots: e.value,
             isCurved: false,
-            colors: [_repo.powadors[e.key]!.item2],
+            color: _repo.powadors[e.key]!.item2,
             isStrokeCapRound: true,
             belowBarData: BarAreaData(
               show: false,

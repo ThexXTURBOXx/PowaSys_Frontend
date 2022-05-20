@@ -38,12 +38,8 @@ class _PowaSysFrontendWidgetState extends State<PowaSysFrontendWidget> {
   @override
   void initState() {
     super.initState();
-    themeSettings.addListener(() {
-      setState(() {});
-    });
-    localeSettings.addListener(() {
-      setState(() {});
-    });
+    themeSettings.addListener(() => setState(() {}));
+    localeSettings.addListener(() => setState(() {}));
   }
 
   @override
@@ -61,9 +57,9 @@ class _PowaSysFrontendWidgetState extends State<PowaSysFrontendWidget> {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: S.delegate.supportedLocales,
-        initialRoute: '/',
+        initialRoute: routeHome,
         routes: {
-          '/': (context) => Home(packageInfo),
+          routeHome: (context) => Home(packageInfo),
         },
       );
 }
