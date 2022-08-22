@@ -1,7 +1,7 @@
 {
   "@@locale": "de",
   "app_name": "PowaSys Frontend",
-  "copyright": "\u00a9 %s Nico Mexis",
+  "copyright": "© %s Nico Mexis",
   "home": "Startseite",
   "imprint": "Impressum",
   "contact": "Kontakt",
