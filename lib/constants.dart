@@ -4,6 +4,10 @@ import 'package:powasys_frontend/data/trend.dart';
 
 String get apiBaseUrl => dotenv.env['APIBaseURL']!;
 
+String get apiEndpointPowas => dotenv.env['APIEndpointPowas']!;
+
+String get apiEndpoint24h => dotenv.env['APIEndpoint24h']!;
+
 late PackageInfo packageInfo;
 
 // Cached Settings which should be gone after reloading
