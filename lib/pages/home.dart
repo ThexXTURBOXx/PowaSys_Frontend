@@ -47,6 +47,7 @@ class _HomeState extends State<Home> {
         body: Scrollbar(
           thumbVisibility: true,
           child: SingleChildScrollView(
+            primary: true,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
