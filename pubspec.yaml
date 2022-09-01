@@ -25,9 +25,7 @@ environment:
   flutter: '>=3.3.0'
 
 dependencies:
-  equatable: ^2.0.0
   fl_chart: ^0.55.1
-  flag: ^6.0.0
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.0

@@ -1,5 +1,7 @@
+import 'dart:html';
+
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:powasys_frontend/data/fl_spot.dart';
 import 'package:powasys_frontend/data/trend.dart';
 import 'package:tuple/tuple.dart';
 
@@ -17,10 +19,10 @@ class DataState extends BlocState<DataFetchState> {
   final double minVal;
   final double maxVal;
   final Map<int, Tuple2<String, Color>> powadors;
-  final Map<int, Tuple2<DateTime, Map<Trend, double>>> latest;
-  final Map<int, Map<Trend, double>> averages;
-  final Map<int, Map<Trend, double>> max;
-  final Map<int, List<PowaSpot>> data;
+  final Map<int, Tuple2<DateTime, Map<Trend, num>>> latest;
+  final Map<int, Map<Trend, num>> averages;
+  final Map<int, Map<Trend, num>> max;
+  final Map<int, List<FlSpot>> data;
 
   const DataState(
     super.state, {
@@ -40,10 +42,10 @@ class DataState extends BlocState<DataFetchState> {
     double? minVal,
     double? maxVal,
     Map<int, Tuple2<String, Color>>? powadors,
-    Map<int, Tuple2<DateTime, Map<Trend, double>>>? latest,
-    Map<int, Map<Trend, double>>? averages,
-    Map<int, Map<Trend, double>>? max,
-    Map<int, List<PowaSpot>>? data,
+    Map<int, Tuple2<DateTime, Map<Trend, num>>>? latest,
+    Map<int, Map<Trend, num>>? averages,
+    Map<int, Map<Trend, num>>? max,
+    Map<int, List<FlSpot>>? data,
   }) =>
       DataState(
         state ?? super.state,
@@ -74,23 +76,23 @@ enum DataFetchState {
 }
 
 class ExportState extends BlocState<ExportGenState> {
-  final String toExport;
+  final AnchorElement? toDownload;
 
   const ExportState(
     super.state, {
     super.ex,
-    this.toExport = '',
+    this.toDownload,
   });
 
   ExportState copyWith({
     ExportGenState? state,
     dynamic ex,
-    String? toExport,
+    AnchorElement? toDownload,
   }) =>
       ExportState(
         state ?? super.state,
         ex: ex ?? super.ex,
-        toExport: toExport ?? this.toExport,
+        toDownload: toDownload ?? this.toDownload,
       );
 }
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:powasys_frontend/bloc/cubits/data_cubit.dart';
 import 'package:powasys_frontend/bloc/states.dart';
@@ -40,7 +39,7 @@ class _TrendTableState extends State<TrendTable> {
                                 (t) => _ValueDataCell(
                                   context,
                                   e.value.item2[t],
-                                  t.unit(context),
+                                  t,
                                 ),
                               )
                               .toList(),
@@ -63,7 +62,7 @@ class _TrendTableState extends State<TrendTable> {
                                 (t) => _ValueDataCell(
                                   context,
                                   e.value[t],
-                                  t.unit(context),
+                                  t,
                                 ),
                               )
                               .toList(),
@@ -86,7 +85,7 @@ class _TrendTableState extends State<TrendTable> {
                                 (t) => _ValueDataCell(
                                   context,
                                   e.value[t],
-                                  t.unit(context),
+                                  t,
                                 ),
                               )
                               .toList(),
@@ -127,14 +126,11 @@ class _InfoDataCell extends DataCell {
 }
 
 class _ValueDataCell extends DataCell {
-  _ValueDataCell(BuildContext context, double? amount, String unit)
+  _ValueDataCell(BuildContext context, num? amount, Trend trend)
       : super(
           Center(
             child: Text(
-              sprintf(
-                S.of(context).amount_format,
-                [amount?.toStringAsFixed(2) ?? '', unit],
-              ),
+              trend.format(context, amount),
               textAlign: TextAlign.center,
             ),
           ),

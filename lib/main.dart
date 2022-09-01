@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/intl_browser.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:powasys_frontend/bloc/cubits/data_cubit.dart';
 import 'package:powasys_frontend/bloc/cubits/export_cubit.dart';
@@ -15,6 +17,8 @@ import 'package:powasys_frontend/themes/light_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  Intl.defaultLocale = await findSystemLocale();
 
   await dotenv.load();
 
@@ -35,7 +39,6 @@ class _PowaSysFrontendWidgetState extends State<PowaSysFrontendWidget> {
   void initState() {
     super.initState();
     themeSettings.addListener(() => setState(() {}));
-    localeSettings.addListener(() => setState(() {}));
   }
 
   @override
@@ -51,7 +54,7 @@ class _PowaSysFrontendWidgetState extends State<PowaSysFrontendWidget> {
               create: (context) => DataCubit(context.read<DataRepo>()),
             ),
             BlocProvider<ExportCubit>(
-              create: (context) => ExportCubit(),
+              create: (context) => ExportCubit(context.read<DataRepo>()),
             ),
           ],
           child: MaterialApp(
@@ -60,7 +63,6 @@ class _PowaSysFrontendWidgetState extends State<PowaSysFrontendWidget> {
             theme: lightTheme,
             darkTheme: darkTheme,
             themeMode: themeSettings.currentTheme,
-            locale: localeSettings.currentLocale,
             localizationsDelegates: const [
               S.delegate,
               GlobalMaterialLocalizations.delegate,

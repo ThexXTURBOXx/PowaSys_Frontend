@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:powasys_frontend/bloc/cubits/data_cubit.dart';
 import 'package:powasys_frontend/bloc/cubits/export_cubit.dart';
 import 'package:powasys_frontend/bloc/states.dart';
 import 'package:powasys_frontend/config/config.dart';
+import 'package:powasys_frontend/data/export.dart';
 import 'package:powasys_frontend/generated/l10n.dart';
 import 'package:powasys_frontend/pages/home.dart';
 import 'package:powasys_frontend/util/navigation.dart';
@@ -46,12 +46,15 @@ class PopMenu extends StatelessWidget {
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: const Text('Exception'),
+                  title: Text(S.of(context).exception),
                   content: Text(stateE.ex.toString()),
                 ),
               );
             } else if (stateE.state.finished) {
-              downloadBytes(stateE.toExport.codeUnits, 'export.csv');
+              stateE.toDownload!
+                ..setAttribute('download', 'export.csv')
+                ..click();
+              stateE = stateE.copyWith(toDownload: null); // Save memory
             }
           },
           child: PopupMenuButton<PopupItems>(
@@ -66,7 +69,7 @@ class PopMenu extends StatelessWidget {
             onSelected: (d) {
               switch (d) {
                 case PopupItems.export:
-                  context.read<ExportCubit>().exportData(stateD.data);
+                  showExportDialog(context, stateD);
                   break;
                 case PopupItems.license:
                   showAboutDialog(
@@ -116,7 +119,7 @@ enum PopupItems {
   String name(BuildContext context) {
     switch (this) {
       case PopupItems.export:
-        return 'Export'; // TODO(Nico): I18n!
+        return S.of(context).export;
       case PopupItems.license:
         return S.of(context).license;
       case PopupItems.theme:

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:powasys_frontend/generated/l10n.dart';
-import 'package:powasys_frontend/l10n/lang_chooser.dart';
 import 'package:sprintf/sprintf.dart';
 
 class Footer extends StatelessWidget {
@@ -26,10 +24,6 @@ class Footer extends StatelessWidget {
               _FooterItem(Icons.subject, S.of(context).imprint),
               _FooterItem(Icons.alternate_email, S.of(context).contact),
             ],
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: LanguageChooser(),
           ),
         ],
       ),

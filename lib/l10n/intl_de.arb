@@ -6,6 +6,9 @@
   "imprint": "Impressum",
   "contact": "Kontakt",
   "license": "Über...",
+  "powadorId": "Powador ID",
+  "time": "Zeit",
+  "state": "Status",
   "genVoltage": "Gen-Spannung",
   "genCurrent": "Gen-Stärke",
   "genPower": "Gen-Leistung",
@@ -22,5 +25,10 @@
   "power_unit": "W",
   "temperature_unit": "°C",
   "switch_theme": "Thema wechseln",
-  "refresh": "Neu laden"
+  "refresh": "Neu laden",
+  "exception": "Fehler!",
+  "export": "Exportieren",
+  "start_date": "Startdatum",
+  "end_date": "Enddatum",
+  "minute_divider": "Intervall (min)"
 }

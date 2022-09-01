@@ -51,7 +51,7 @@ class _HomeState extends State<Home> {
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: const Text('Exception'),
+                  title: Text(S.of(context).exception),
                   content: Text(state.ex.toString()),
                 ),
               );

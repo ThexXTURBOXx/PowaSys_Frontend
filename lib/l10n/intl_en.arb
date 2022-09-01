@@ -24,6 +24,18 @@
   "@license": {
     "description": "The text for the licenses button in the header"
   },
+  "powadorId": "Powador ID",
+  "@powadorId": {
+    "description": "The name of the Powador ID unit"
+  },
+  "time": "Time",
+  "@time": {
+    "description": "The name of the time unit"
+  },
+  "state": "State",
+  "@state": {
+    "description": "The name of the Powador state unit"
+  },
   "genVoltage": "Gen-Voltage",
   "@genVoltage": {
     "description": "The name of generated physical voltage units"
@@ -91,5 +103,25 @@
   "refresh": "Refresh",
   "@refresh": {
     "description": "The hover text for the floating refresh button"
+  },
+  "exception": "Exception!",
+  "@exception": {
+    "description": "The text shown when an exception occurs"
+  },
+  "export": "Export",
+  "@export": {
+    "description": "The title text for the export dialog and button"
+  },
+  "start_date": "Start Date",
+  "@start_date": {
+    "description": "The text field in the export dialog indicating the start date"
+  },
+  "end_date": "End Date",
+  "@end_date": {
+    "description": "The text field in the export dialog indicating the end date"
+  },
+  "minute_divider": "Interval (min)",
+  "@minute_divider": {
+    "description": "The text field in the export dialog indicating the minute divider"
   }
 }

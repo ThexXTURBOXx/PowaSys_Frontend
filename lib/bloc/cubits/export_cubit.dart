@@ -1,48 +1,80 @@
 // ignore_for_file: missing_whitespace_between_adjacent_strings
+import 'dart:convert';
+import 'dart:html';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:powasys_frontend/bloc/repos/data_repo.dart';
 import 'package:powasys_frontend/bloc/states.dart';
 import 'package:powasys_frontend/constants.dart';
-import 'package:powasys_frontend/data/fl_spot.dart';
 import 'package:powasys_frontend/data/trend.dart';
+import 'package:powasys_frontend/generated/l10n.dart';
 import 'package:tuple/tuple.dart';
 
 class ExportCubit extends Cubit<ExportState> {
-  ExportCubit() : super(const ExportState(ExportGenState.notStarted));
+  final DataRepo _dataRepo;
 
-  Future<void> exportData(Map<int, List<PowaSpot>> data) async {
+  ExportCubit(this._dataRepo)
+      : super(const ExportState(ExportGenState.notStarted));
+
+  Future<void> exportData(S s, DateTime start, DateTime end, int minDiv) async {
     try {
       emit(state.copyWith(state: ExportGenState.exporting));
 
-      var toExport = 'Powador ID;Time;State;Generator Voltage;'
-          'Generator Current;Generator Power;Net Voltage;Net Current;Net Power;'
-          'Temperature\n';
+      final parsed = await _dataRepo.getInterval(
+        start: start,
+        end: end,
+        minDiv: minDiv,
+      ) as List;
 
-      final entries = data.entries
-          .expand((e) => e.value.map((f) => Tuple2(f, e.key)))
-          .toList(growable: false);
-      entries.sort((a, b) {
-        final comp = a.item1.compare(b.item1);
-        return comp != 0 ? comp : a.item2 - b.item2;
+      final data = parsed.map((e) {
+        final time = DateTime.parse(e['time'].toString());
+        final powaId = int.parse(e['powadorId'].toString());
+        final values = {
+          for (var t in Trend.values)
+            t: e[t.id] == null ? null : t.parse(e[t.id].toString())
+        };
+        return Tuple3(time, powaId, values);
+      }).toList(growable: false);
+
+      data.sort((a, b) {
+        final comp = a.item1.compareTo(b.item1);
+        return comp != 0 ? comp : a.item2.compareTo(b.item2);
       });
-      toExport += entries
-          .map(
-            (e) => '${e.item2};'
-                '${e.item1.time};'
-                '${e.item1.values[Trend.state] as int?};'
-                '${decimalFormatOne.format(e.item1.values[Trend.genVoltage])};'
-                '${decimalFormatTwo.format(e.item1.values[Trend.genCurrent])};'
-                '${e.item1.values[Trend.genPower] as int?};'
-                '${decimalFormatOne.format(e.item1.values[Trend.netVoltage])};'
-                '${decimalFormatTwo.format(e.item1.values[Trend.netCurrent])};'
-                '${e.item1.values[Trend.netPower] as int?};'
-                '${e.item1.values[Trend.temperature] as int?}',
-          )
-          .join('\n');
+
+      if (data.isEmpty) {
+        emit(
+          state.copyWith(
+            state: ExportGenState.exportError,
+            ex: 'Empty response!',
+          ),
+        );
+        return;
+      }
+
+      final toExport = '${s.powadorId};${s.time};${s.state};'
+          '${s.genVoltage};${s.genCurrent};${s.genPower};'
+          '${s.netVoltage};${s.netCurrent};${s.netPower};'
+          '${s.temperature}\n'
+          '${data.map(
+                (e) => "${e.item2};"
+                    "${e.item1};"
+                    "${e.item3[Trend.state]};"
+                    "${decimalFormatOne.format(e.item3[Trend.genVoltage])};"
+                    "${decimalFormatTwo.format(e.item3[Trend.genCurrent])};"
+                    "${e.item3[Trend.genPower]};"
+                    "${decimalFormatOne.format(e.item3[Trend.netVoltage])};"
+                    "${decimalFormatTwo.format(e.item3[Trend.netCurrent])};"
+                    "${e.item3[Trend.netPower]};"
+                    "${e.item3[Trend.temperature]}\n",
+              ).join("")}';
 
       emit(
         state.copyWith(
           state: ExportGenState.exported,
-          toExport: toExport,
+          toDownload: AnchorElement(
+            href: 'data:application/octet-stream;charset=utf-16le;base64,'
+                '${base64Encode(toExport.codeUnits)}',
+          ),
         ),
       );
     } catch (e) {
