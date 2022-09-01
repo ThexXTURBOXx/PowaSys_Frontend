@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 import 'package:powasys_frontend/l10n/lang_chooser.dart';
 
 const currentLocaleKey = 'locale.current';
@@ -12,6 +13,7 @@ class LocaleSettings extends ChangeNotifier {
   LocaleSettings(this._box) {
     if (_box.containsKey(currentLocaleKey)) {
       _locale = _box.get(currentLocaleKey) as String;
+      Intl.defaultLocale = _locale;
     } else {
       _box.put(currentLocaleKey, _locale);
     }
@@ -26,6 +28,7 @@ class LocaleSettings extends ChangeNotifier {
   void setLocale(String locale) {
     _locale = locale;
     _box.put(currentLocaleKey, _locale);
+    Intl.defaultLocale = _locale;
     notifyListeners();
   }
 }

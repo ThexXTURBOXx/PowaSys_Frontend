@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:powasys_frontend/bloc/cubits/data_cubit.dart';
+import 'package:powasys_frontend/bloc/cubits/export_cubit.dart';
 import 'package:powasys_frontend/bloc/repos/data_repo.dart';
 import 'package:powasys_frontend/config/config.dart';
 import 'package:powasys_frontend/constants.dart';
@@ -48,6 +49,9 @@ class _PowaSysFrontendWidgetState extends State<PowaSysFrontendWidget> {
           providers: [
             BlocProvider<DataCubit>(
               create: (context) => DataCubit(context.read<DataRepo>()),
+            ),
+            BlocProvider<ExportCubit>(
+              create: (context) => ExportCubit(),
             ),
           ],
           child: MaterialApp(

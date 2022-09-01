@@ -1,8 +1,8 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:powasys_frontend/bloc/repos/data_repo.dart';
 import 'package:powasys_frontend/bloc/states.dart';
+import 'package:powasys_frontend/data/fl_spot.dart';
 import 'package:powasys_frontend/data/trend.dart';
 import 'package:powasys_frontend/util/hex_color.dart';
 import 'package:tuple/tuple.dart';
@@ -10,7 +10,7 @@ import 'package:tuple/tuple.dart';
 class DataCubit extends Cubit<DataState> {
   final DataRepo _dataRepo;
 
-  DataCubit(this._dataRepo) : super(const DataState(PowaSysState.notFetched));
+  DataCubit(this._dataRepo) : super(const DataState(DataFetchState.notFetched));
 
   Future<void> fetchData({
     required List<int> disabledPowadors,
@@ -18,7 +18,7 @@ class DataCubit extends Cubit<DataState> {
     required int minDiv,
   }) async {
     try {
-      emit(state.copyWith(state: PowaSysState.fetching));
+      emit(state.copyWith(state: DataFetchState.fetching));
 
       final powadors = <int, Tuple2<String, Color>>{};
       for (final entry in await _dataRepo.getPowas()) {
@@ -45,39 +45,50 @@ class DataCubit extends Cubit<DataState> {
 
       final averages = <int, Map<Trend, double>>{};
       for (final entry in parsed24h['averages']) {
-        averages[int.parse(entry['powadorId'].toString())] =
-            Trend.values.asMap().map(
-                  (id, trend) =>
-                      MapEntry(trend, double.parse(entry[trend.id].toString())),
-                );
+        averages[int.parse(entry['powadorId'].toString())] = Trend.values
+            .where((t) => t != Trend.state)
+            .toList(growable: false)
+            .asMap()
+            .map(
+              (id, trend) =>
+                  MapEntry(trend, double.parse(entry[trend.id].toString())),
+            );
       }
 
       final max = <int, Map<Trend, double>>{};
       for (final entry in parsed24h['max']) {
-        max[int.parse(entry['powadorId'].toString())] =
-            Trend.values.asMap().map(
-                  (id, trend) =>
-                      MapEntry(trend, double.parse(entry[trend.id].toString())),
-                );
+        max[int.parse(entry['powadorId'].toString())] = Trend.values
+            .where((t) => t != Trend.state)
+            .toList(growable: false)
+            .asMap()
+            .map(
+              (id, trend) =>
+                  MapEntry(trend, double.parse(entry[trend.id].toString())),
+            );
       }
 
       var minVal = 0.0;
       var maxVal = 0.0;
-      final data = Map<int, List<FlSpot>>.fromEntries(
+      final data = Map<int, List<PowaSpot>>.fromEntries(
         powadors.keys.map((e) => MapEntry(e, [])),
       );
       for (final entry in parsed24h['data']) {
         final powaId = int.parse(entry['powadorId'].toString());
         if (!disabledPowadors.contains(powaId)) {
-          final value = double.parse(entry[currentTrend.id].toString());
+          final values = {
+            for (var t in Trend.values)
+              t: entry[t.id] == null
+                  ? null
+                  : double.parse(entry[t.id].toString())
+          };
+          final value = values[currentTrend]!;
           minVal = value < minVal ? value : minVal;
           maxVal = value > maxVal ? value : maxVal;
           data[powaId]!.add(
-            FlSpot(
-              DateTime.parse(entry['time'].toString())
-                  .millisecondsSinceEpoch
-                  .toDouble(),
+            PowaSpot.fromDateTime(
+              DateTime.parse(entry['time'].toString()),
               value,
+              values,
             ),
           );
         }
@@ -85,7 +96,7 @@ class DataCubit extends Cubit<DataState> {
 
       emit(
         state.copyWith(
-          state: PowaSysState.fetchedData,
+          state: DataFetchState.fetchedData,
           powadors: powadors,
           minVal: minVal,
           maxVal: maxVal,
@@ -96,7 +107,7 @@ class DataCubit extends Cubit<DataState> {
         ),
       );
     } catch (e) {
-      emit(state.copyWith(state: PowaSysState.fetchError));
+      emit(state.copyWith(state: DataFetchState.fetchError, ex: e));
     }
   }
 }

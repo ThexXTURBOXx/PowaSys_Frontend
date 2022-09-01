@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:powasys_frontend/generated/l10n.dart';
 
 enum Trend {
+  state(id: 'state'),
   genVoltage(id: 'genVoltage'),
   genCurrent(id: 'genCurrent'),
   genPower(id: 'genPower'),
@@ -17,6 +18,8 @@ enum Trend {
 
   String name(BuildContext context) {
     switch (this) {
+      case Trend.state:
+        return 'State'; // TODO(Nico): I18n!
       case Trend.genVoltage:
         return S.of(context).genVoltage;
       case Trend.genCurrent:
@@ -36,6 +39,8 @@ enum Trend {
 
   String unit(BuildContext context) {
     switch (this) {
+      case Trend.state:
+        return '';
       case Trend.genVoltage:
         return S.of(context).voltage_unit;
       case Trend.genCurrent:

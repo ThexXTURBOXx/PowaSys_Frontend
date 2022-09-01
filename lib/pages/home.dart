@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:powasys_frontend/bloc/cubits/data_cubit.dart';
+import 'package:powasys_frontend/bloc/states.dart';
 import 'package:powasys_frontend/constants.dart';
 import 'package:powasys_frontend/data/divider_settings.dart';
 import 'package:powasys_frontend/data/powa_settings.dart';
@@ -44,19 +45,32 @@ class _HomeState extends State<Home> {
           ],
         ),
         bottomNavigationBar: const Footer(),
-        body: Scrollbar(
-          thumbVisibility: true,
-          child: SingleChildScrollView(
-            primary: true,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                TrendTable(),
-                TrendDiagram(),
-                DividerSettings(),
-                PowaSettings(),
-                TrendSettings(),
-              ],
+        body: BlocListener<DataCubit, DataState>(
+          listener: (context, state) {
+            if (state.state.errored) {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Exception'),
+                  content: Text(state.ex.toString()),
+                ),
+              );
+            }
+          },
+          child: Scrollbar(
+            thumbVisibility: true,
+            child: SingleChildScrollView(
+              primary: true,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  TrendTable(),
+                  TrendDiagram(),
+                  DividerSettings(),
+                  PowaSettings(),
+                  TrendSettings(),
+                ],
+              ),
             ),
           ),
         ),

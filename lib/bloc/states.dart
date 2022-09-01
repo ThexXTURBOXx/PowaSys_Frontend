@@ -1,25 +1,30 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:powasys_frontend/data/fl_spot.dart';
 import 'package:powasys_frontend/data/trend.dart';
 import 'package:tuple/tuple.dart';
 
-class BlocState {
-  final PowaSysState state;
+class BlocState<State> {
+  final State state;
+  final dynamic ex;
 
-  const BlocState(this.state);
+  const BlocState(
+    this.state, {
+    this.ex,
+  });
 }
 
-class DataState extends BlocState {
+class DataState extends BlocState<DataFetchState> {
   final double minVal;
   final double maxVal;
   final Map<int, Tuple2<String, Color>> powadors;
   final Map<int, Tuple2<DateTime, Map<Trend, double>>> latest;
   final Map<int, Map<Trend, double>> averages;
   final Map<int, Map<Trend, double>> max;
-  final Map<int, List<FlSpot>> data;
+  final Map<int, List<PowaSpot>> data;
 
   const DataState(
     super.state, {
+    super.ex,
     this.minVal = 0,
     this.maxVal = 0,
     this.powadors = const {},
@@ -30,17 +35,19 @@ class DataState extends BlocState {
   });
 
   DataState copyWith({
-    PowaSysState? state,
+    DataFetchState? state,
+    dynamic ex,
     double? minVal,
     double? maxVal,
     Map<int, Tuple2<String, Color>>? powadors,
     Map<int, Tuple2<DateTime, Map<Trend, double>>>? latest,
     Map<int, Map<Trend, double>>? averages,
     Map<int, Map<Trend, double>>? max,
-    Map<int, List<FlSpot>>? data,
+    Map<int, List<PowaSpot>>? data,
   }) =>
       DataState(
-        state ?? this.state,
+        state ?? super.state,
+        ex: ex ?? super.ex,
         minVal: minVal ?? this.minVal,
         maxVal: maxVal ?? this.maxVal,
         powadors: powadors ?? this.powadors,
@@ -51,7 +58,7 @@ class DataState extends BlocState {
       );
 }
 
-enum PowaSysState {
+enum DataFetchState {
   notFetched(),
   fetching(),
   fetchedData(finished: true),
@@ -60,7 +67,43 @@ enum PowaSysState {
   final bool finished;
   final bool errored;
 
-  const PowaSysState({
+  const DataFetchState({
+    this.finished = false,
+    this.errored = false,
+  });
+}
+
+class ExportState extends BlocState<ExportGenState> {
+  final String toExport;
+
+  const ExportState(
+    super.state, {
+    super.ex,
+    this.toExport = '',
+  });
+
+  ExportState copyWith({
+    ExportGenState? state,
+    dynamic ex,
+    String? toExport,
+  }) =>
+      ExportState(
+        state ?? super.state,
+        ex: ex ?? super.ex,
+        toExport: toExport ?? this.toExport,
+      );
+}
+
+enum ExportGenState {
+  notStarted(),
+  exporting(),
+  exported(finished: true),
+  exportError(finished: true, errored: true);
+
+  final bool finished;
+  final bool errored;
+
+  const ExportGenState({
     this.finished = false,
     this.errored = false,
   });
