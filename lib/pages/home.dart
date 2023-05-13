@@ -57,13 +57,13 @@ class _HomeState extends State<Home> {
               );
             }
           },
-          child: Scrollbar(
+          child: const Scrollbar(
             thumbVisibility: true,
             child: SingleChildScrollView(
               primary: true,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   TrendTable(),
                   TrendDiagram(),
                   DividerSettings(),
