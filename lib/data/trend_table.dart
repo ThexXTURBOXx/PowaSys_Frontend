@@ -29,10 +29,10 @@ class _TrendTableState extends State<TrendTable> {
                                 S.of(context).currently,
                                 [
                                   state.powadors[e.key]!.item1,
-                                  '${e.value.item1}'
+                                  '${e.value.item1}',
                                 ],
                               ),
-                            )
+                            ),
                           ] +
                           Trend.values
                               .map(
@@ -55,7 +55,7 @@ class _TrendTableState extends State<TrendTable> {
                                 S.of(context).average,
                                 [state.powadors[e.key]!.item1],
                               ),
-                            )
+                            ),
                           ] +
                           Trend.values
                               .map(
@@ -78,7 +78,7 @@ class _TrendTableState extends State<TrendTable> {
                                 S.of(context).max,
                                 [state.powadors[e.key]!.item1],
                               ),
-                            )
+                            ),
                           ] +
                           Trend.values
                               .map(

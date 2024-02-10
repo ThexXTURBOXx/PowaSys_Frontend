@@ -6,24 +6,16 @@ import 'package:powasys_frontend/data/trend.dart';
 import 'package:tuple/tuple.dart';
 
 class BlocState<State> {
-  final State state;
-  final dynamic ex;
-
   const BlocState(
     this.state, {
     this.ex,
   });
+
+  final State state;
+  final dynamic ex;
 }
 
 class DataState extends BlocState<DataFetchState> {
-  final double minVal;
-  final double maxVal;
-  final Map<int, Tuple2<String, Color>> powadors;
-  final Map<int, Tuple2<DateTime, Map<Trend, num>>> latest;
-  final Map<int, Map<Trend, num>> averages;
-  final Map<int, Map<Trend, num>> max;
-  final Map<int, List<FlSpot>> data;
-
   const DataState(
     super.state, {
     super.ex,
@@ -36,9 +28,17 @@ class DataState extends BlocState<DataFetchState> {
     this.data = const {},
   });
 
+  final double minVal;
+  final double maxVal;
+  final Map<int, Tuple2<String, Color>> powadors;
+  final Map<int, Tuple2<DateTime, Map<Trend, num>>> latest;
+  final Map<int, Map<Trend, num>> averages;
+  final Map<int, Map<Trend, num>> max;
+  final Map<int, List<FlSpot>> data;
+
   DataState copyWith({
     DataFetchState? state,
-    dynamic ex,
+    ex,
     double? minVal,
     double? maxVal,
     Map<int, Tuple2<String, Color>>? powadors,
@@ -66,27 +66,27 @@ enum DataFetchState {
   fetchedData(finished: true),
   fetchError(finished: true, errored: true);
 
-  final bool finished;
-  final bool errored;
-
   const DataFetchState({
     this.finished = false,
     this.errored = false,
   });
+
+  final bool finished;
+  final bool errored;
 }
 
 class ExportState extends BlocState<ExportGenState> {
-  final AnchorElement? toDownload;
-
   const ExportState(
     super.state, {
     super.ex,
     this.toDownload,
   });
 
+  final AnchorElement? toDownload;
+
   ExportState copyWith({
     ExportGenState? state,
-    dynamic ex,
+    ex,
     AnchorElement? toDownload,
   }) =>
       ExportState(
@@ -102,11 +102,11 @@ enum ExportGenState {
   exported(finished: true),
   exportError(finished: true, errored: true);
 
-  final bool finished;
-  final bool errored;
-
   const ExportGenState({
     this.finished = false,
     this.errored = false,
   });
+
+  final bool finished;
+  final bool errored;
 }

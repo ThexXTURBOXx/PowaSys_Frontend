@@ -14,9 +14,9 @@ enum Trend {
   netPower(id: 'netPower'),
   temperature(id: 'temperature');
 
-  final String id;
-
   const Trend({required this.id});
+
+  final String id;
 
   String name(BuildContext context) {
     switch (this) {

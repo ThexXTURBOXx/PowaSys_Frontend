@@ -8,9 +8,9 @@ import 'package:powasys_frontend/util/hex_color.dart';
 import 'package:tuple/tuple.dart';
 
 class DataCubit extends Cubit<DataState> {
-  final DataRepo _dataRepo;
-
   DataCubit(this._dataRepo) : super(const DataState(DataFetchState.notFetched));
+
+  final DataRepo _dataRepo;
 
   Future<void> fetchData({
     required List<int> disabledPowadors,
@@ -76,8 +76,8 @@ class DataCubit extends Cubit<DataState> {
         final powaId = int.parse(entry['powadorId'].toString());
         if (!disabledPowadors.contains(powaId)) {
           final values = {
-            for (var t in Trend.values)
-              t: entry[t.id] == null ? null : t.parse(entry[t.id].toString())
+            for (final t in Trend.values)
+              t: entry[t.id] == null ? null : t.parse(entry[t.id].toString()),
           };
           final value = values[currentTrend]! as double;
           minVal = value < minVal ? value : minVal;

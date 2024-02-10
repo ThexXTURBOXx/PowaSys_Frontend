@@ -1,4 +1,3 @@
-// ignore_for_file: missing_whitespace_between_adjacent_strings
 import 'dart:convert';
 import 'dart:html';
 
@@ -11,10 +10,10 @@ import 'package:powasys_frontend/generated/l10n.dart';
 import 'package:tuple/tuple.dart';
 
 class ExportCubit extends Cubit<ExportState> {
-  final DataRepo _dataRepo;
-
   ExportCubit(this._dataRepo)
       : super(const ExportState(ExportGenState.notStarted));
+
+  final DataRepo _dataRepo;
 
   Future<void> exportData(S s, DateTime start, DateTime end, int minDiv) async {
     try {
@@ -30,16 +29,15 @@ class ExportCubit extends Cubit<ExportState> {
         final time = DateTime.parse(e['time'].toString());
         final powaId = int.parse(e['powadorId'].toString());
         final values = {
-          for (var t in Trend.values)
-            t: e[t.id] == null ? null : t.parse(e[t.id].toString())
+          for (final t in Trend.values)
+            t: e[t.id] == null ? null : t.parse(e[t.id].toString()),
         };
         return Tuple3(time, powaId, values);
-      }).toList(growable: false);
-
-      data.sort((a, b) {
-        final comp = a.item1.compareTo(b.item1);
-        return comp != 0 ? comp : a.item2.compareTo(b.item2);
-      });
+      }).toList(growable: false)
+        ..sort((a, b) {
+          final comp = a.item1.compareTo(b.item1);
+          return comp != 0 ? comp : a.item2.compareTo(b.item2);
+        });
 
       if (data.isEmpty) {
         emit(
@@ -66,7 +64,7 @@ class ExportCubit extends Cubit<ExportState> {
                     "${decimalFormatTwo.format(e.item3[Trend.netCurrent])};"
                     "${e.item3[Trend.netPower]};"
                     "${e.item3[Trend.temperature]}\n",
-              ).join("")}';
+              ).join()}';
 
       emit(
         state.copyWith(

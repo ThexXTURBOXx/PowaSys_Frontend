@@ -73,7 +73,7 @@ void showExportDialog(BuildContext context, DataState state) {
             controller: minDivController,
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.digitsOnly
+              FilteringTextInputFormatter.digitsOnly,
             ],
             decoration: InputDecoration(
               labelText: S.of(context).minute_divider,
@@ -93,7 +93,7 @@ void showExportDialog(BuildContext context, DataState state) {
                     minDivExport,
                   );
             },
-          )
+          ),
         ],
       ),
     ),

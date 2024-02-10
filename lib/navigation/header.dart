@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -34,9 +35,16 @@ class HomeButton extends StatelessWidget {
 }
 
 class PopMenu extends StatelessWidget {
+  const PopMenu(this.packageInfo, {super.key});
+
   final PackageInfo packageInfo;
 
-  const PopMenu(this.packageInfo, {super.key});
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+        .add(DiagnosticsProperty<PackageInfo>('packageInfo', packageInfo));
+  }
 
   @override
   Widget build(BuildContext context) => BlocBuilder<DataCubit, DataState>(
@@ -70,7 +78,6 @@ class PopMenu extends StatelessWidget {
               switch (d) {
                 case PopupItems.export:
                   showExportDialog(context, stateD);
-                  break;
                 case PopupItems.license:
                   showAboutDialog(
                     context: context,
@@ -88,10 +95,8 @@ class PopMenu extends StatelessWidget {
                       size: 50,
                     ),
                   );
-                  break;
                 case PopupItems.theme:
                   themeSettings.setTheme(isDark: !themeSettings.isDark);
-                  break;
               }
             },
             itemBuilder: (context) => PopupItems.values
@@ -112,9 +117,9 @@ enum PopupItems {
   theme(icon: Icons.brightness_medium),
   license(icon: Icons.article_outlined);
 
-  final IconData icon;
-
   const PopupItems({required this.icon});
+
+  final IconData icon;
 
   String name(BuildContext context) {
     switch (this) {
@@ -129,10 +134,18 @@ enum PopupItems {
 }
 
 class _PopupItem extends StatelessWidget {
+  const _PopupItem(this.icon, this.name);
+
   final IconData icon;
   final String name;
 
-  const _PopupItem(this.icon, this.name);
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty<IconData>('icon', icon))
+      ..add(StringProperty('name', name));
+  }
 
   @override
   Widget build(BuildContext context) => Row(
@@ -152,7 +165,7 @@ class _PopupItem extends StatelessWidget {
           Text(
             name,
             textAlign: TextAlign.left,
-          )
+          ),
         ],
       );
 }

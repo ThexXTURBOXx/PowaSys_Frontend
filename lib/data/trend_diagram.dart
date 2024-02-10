@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -18,6 +19,12 @@ class TrendDiagram extends StatefulWidget {
 class _TrendDiagramState extends State<TrendDiagram> {
   static const double hourInMs = 1000 * 60 * 60;
   static const double dayInMs = hourInMs * 24;
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DoubleProperty('now', now));
+  }
 
   @override
   Widget build(BuildContext ctx) => BlocConsumer<DataCubit, DataState>(
@@ -52,20 +59,20 @@ class _TrendDiagramState extends State<TrendDiagram> {
                       touchCallback: (touchEvent, touchResponse) {},
                       handleBuiltInTouches: true,
                     ),
-                    gridData: FlGridData(
+                    gridData: const FlGridData(
                       show: false,
                     ),
                     titlesData: FlTitlesData(
                       show: true,
-                      topTitles: AxisTitles(),
-                      leftTitles: AxisTitles(
+                      topTitles: const AxisTitles(),
+                      leftTitles: const AxisTitles(
                         sideTitles: SideTitles(
                           // TODO(Nico): Why the fuck does this not work?
                           showTitles: false,
                           interval: 100,
                         ),
                       ),
-                      rightTitles: AxisTitles(),
+                      rightTitles: const AxisTitles(),
                       bottomTitles: AxisTitles(
                         sideTitles: SideTitles(
                           showTitles: true,

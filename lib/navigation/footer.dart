@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:powasys_frontend/generated/l10n.dart';
 import 'package:sprintf/sprintf.dart';
@@ -32,10 +33,18 @@ class Footer extends StatelessWidget {
 }
 
 class _FooterItem extends StatelessWidget {
+  const _FooterItem(this.icon, this.name);
+
   final IconData icon;
   final String name;
 
-  const _FooterItem(this.icon, this.name);
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty<IconData>('icon', icon))
+      ..add(StringProperty('name', name));
+  }
 
   @override
   Widget build(BuildContext context) => Padding(

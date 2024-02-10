@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -16,9 +17,16 @@ import 'package:powasys_frontend/navigation/header.dart';
 const routeHome = '/';
 
 class Home extends StatefulWidget {
+  const Home(this.packageInfo, {super.key});
+
   final PackageInfo packageInfo;
 
-  const Home(this.packageInfo, {super.key});
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+        .add(DiagnosticsProperty<PackageInfo>('packageInfo', packageInfo));
+  }
 
   @override
   State<StatefulWidget> createState() => _HomeState();
