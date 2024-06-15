@@ -6,8 +6,8 @@ final ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
-      foregroundColor: MaterialStateProperty.all(Colors.black),
-      textStyle: MaterialStateProperty.all(
+      foregroundColor: WidgetStateProperty.all(Colors.black),
+      textStyle: WidgetStateProperty.all(
         const TextStyle(
           fontWeight: FontWeight.normal,
         ),

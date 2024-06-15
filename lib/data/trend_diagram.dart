@@ -54,7 +54,8 @@ class _TrendDiagramState extends State<TrendDiagram> {
                               ),
                             )
                             .toList(),
-                        tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
+                        getTooltipColor: (_) =>
+                            Colors.blueGrey.withOpacity(0.8),
                       ),
                       touchCallback: (touchEvent, touchResponse) {},
                       handleBuiltInTouches: true,

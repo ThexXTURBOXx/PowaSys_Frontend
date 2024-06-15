@@ -6,8 +6,8 @@ final ThemeData darkTheme = ThemeData(
   useMaterial3: true,
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
-      foregroundColor: MaterialStateProperty.all(Colors.white),
-      textStyle: MaterialStateProperty.all(
+      foregroundColor: WidgetStateProperty.all(Colors.white),
+      textStyle: WidgetStateProperty.all(
         const TextStyle(
           fontWeight: FontWeight.normal,
         ),

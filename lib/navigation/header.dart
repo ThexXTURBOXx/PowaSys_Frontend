@@ -72,7 +72,7 @@ class PopMenu extends StatelessWidget {
                   .textButtonTheme
                   .style!
                   .foregroundColor!
-                  .resolve({MaterialState.focused}),
+                  .resolve({WidgetState.focused}),
             ),
             onSelected: (d) {
               switch (d) {
@@ -159,7 +159,7 @@ class _PopupItem extends StatelessWidget {
                   .textButtonTheme
                   .style!
                   .foregroundColor!
-                  .resolve({MaterialState.focused}),
+                  .resolve({WidgetState.focused}),
             ),
           ),
           Text(
