@@ -1,9 +1,8 @@
-import 'dart:html';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:powasys_frontend/data/trend.dart';
 import 'package:tuple/tuple.dart';
+import 'package:web/web.dart';
 
 class BlocState<State> {
   const BlocState(
@@ -82,12 +81,12 @@ class ExportState extends BlocState<ExportGenState> {
     this.toDownload,
   });
 
-  final AnchorElement? toDownload;
+  final HTMLAnchorElement? toDownload;
 
   ExportState copyWith({
     ExportGenState? state,
     ex,
-    AnchorElement? toDownload,
+    HTMLAnchorElement? toDownload,
   }) =>
       ExportState(
         state ?? super.state,

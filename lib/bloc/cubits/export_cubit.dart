@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:html';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:powasys_frontend/bloc/repos/data_repo.dart';
@@ -8,6 +7,7 @@ import 'package:powasys_frontend/constants.dart';
 import 'package:powasys_frontend/data/trend.dart';
 import 'package:powasys_frontend/generated/l10n.dart';
 import 'package:tuple/tuple.dart';
+import 'package:web/web.dart';
 
 class ExportCubit extends Cubit<ExportState> {
   ExportCubit(this._dataRepo)
@@ -66,13 +66,13 @@ class ExportCubit extends Cubit<ExportState> {
                     "${e.item3[Trend.temperature]}\n",
               ).join()}';
 
+      final elem = document.createElement('anchor') as HTMLAnchorElement
+        ..href = 'data:application/octet-stream;charset=utf-16le;base64,'
+            '${base64Encode(toExport.codeUnits)}';
       emit(
         state.copyWith(
           state: ExportGenState.exported,
-          toDownload: AnchorElement(
-            href: 'data:application/octet-stream;charset=utf-16le;base64,'
-                '${base64Encode(toExport.codeUnits)}',
-          ),
+          toDownload: elem,
         ),
       );
     } catch (e) {
