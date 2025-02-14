@@ -24,8 +24,9 @@ class Home extends StatefulWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties
-        .add(DiagnosticsProperty<PackageInfo>('packageInfo', packageInfo));
+    properties.add(
+      DiagnosticsProperty<PackageInfo>('packageInfo', packageInfo),
+    );
   }
 
   @override
@@ -37,61 +38,59 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     context.read<DataCubit>().fetchData(
-          disabledPowadors: disabledPowadors,
-          currentTrend: currentTrend,
-          minDiv: minDiv,
-        );
+      disabledPowadors: disabledPowadors,
+      currentTrend: currentTrend,
+      minDiv: minDiv,
+    );
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: const Logo(),
-          actions: [
-            const HomeButton(),
-            PopMenu(widget.packageInfo),
-          ],
-        ),
-        bottomNavigationBar: const Footer(),
-        body: BlocListener<DataCubit, DataState>(
-          listener: (context, state) {
-            if (state.state.errored) {
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
+    appBar: AppBar(
+      title: const Logo(),
+      actions: [const HomeButton(), PopMenu(widget.packageInfo)],
+    ),
+    bottomNavigationBar: const Footer(),
+    body: BlocListener<DataCubit, DataState>(
+      listener: (context, state) {
+        if (state.state.errored) {
+          showDialog(
+            context: context,
+            builder:
+                (context) => AlertDialog(
                   title: Text(S.of(context).exception),
                   content: Text(state.ex.toString()),
                 ),
-              );
-            }
-          },
-          child: const Scrollbar(
-            thumbVisibility: true,
-            child: SingleChildScrollView(
-              primary: true,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TrendTable(),
-                  TrendDiagram(),
-                  DividerSettings(),
-                  PowaSettings(),
-                  TrendSettings(),
-                ],
-              ),
-            ),
+          );
+        }
+      },
+      child: const Scrollbar(
+        thumbVisibility: true,
+        child: SingleChildScrollView(
+          primary: true,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TrendTable(),
+              TrendDiagram(),
+              DividerSettings(),
+              PowaSettings(),
+              TrendSettings(),
+            ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            context.read<DataCubit>().fetchData(
-                  disabledPowadors: disabledPowadors,
-                  currentTrend: currentTrend,
-                  minDiv: minDiv,
-                );
-          },
-          tooltip: S.of(context).refresh,
-          child: const Icon(Icons.refresh),
-        ),
-      );
+      ),
+    ),
+    floatingActionButton: FloatingActionButton(
+      onPressed: () {
+        context.read<DataCubit>().fetchData(
+          disabledPowadors: disabledPowadors,
+          currentTrend: currentTrend,
+          minDiv: minDiv,
+        );
+      },
+      tooltip: S.of(context).refresh,
+      child: const Icon(Icons.refresh),
+    ),
+  );
 }

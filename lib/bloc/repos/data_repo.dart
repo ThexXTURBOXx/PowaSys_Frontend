@@ -16,13 +16,14 @@ class DataRepo {
     required DateTime start,
     required DateTime end,
     required int minDiv,
-  }) async =>
-      getJson(
-        Uri.parse('$apiBaseUrl$apiEndpointInterval'
-            '?start=${start.toIso8601String()}'
-            '&end=${end.toIso8601String()}'
-            '&minDiv=$minDiv'),
-      );
+  }) async => getJson(
+    Uri.parse(
+      '$apiBaseUrl$apiEndpointInterval'
+      '?start=${start.toIso8601String()}'
+      '&end=${end.toIso8601String()}'
+      '&minDiv=$minDiv',
+    ),
+  );
 
   Future<dynamic> getJson(Uri uri) async =>
       json.decode(await _httpDataProvider.getBody(uri));

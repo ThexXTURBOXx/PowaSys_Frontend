@@ -28,8 +28,9 @@ class _TrendDiagramState extends State<TrendDiagram> {
 
   @override
   Widget build(BuildContext ctx) => BlocConsumer<DataCubit, DataState>(
-        listener: (context, state) => setState(() {}),
-        builder: (context, state) => Column(
+    listener: (context, state) => setState(() {}),
+    builder:
+        (context, state) => Column(
           children: [
             SizedBox(
               height: 300,
@@ -39,30 +40,31 @@ class _TrendDiagramState extends State<TrendDiagram> {
                   LineChartData(
                     lineTouchData: LineTouchData(
                       touchTooltipData: LineTouchTooltipData(
-                        getTooltipItems: (touchedSpots) => touchedSpots
-                            .map(
-                              (spot) => LineTooltipItem(
-                                sprintf(S.of(context).amount_format, [
-                                  '${spot.y}',
-                                  currentTrend.unit(context),
-                                ]),
-                                TextStyle(
-                                  color: spot.bar.color,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            )
-                            .toList(),
-                        getTooltipColor: (_) =>
-                            Colors.blueGrey.withOpacity(0.8),
+                        getTooltipItems:
+                            (touchedSpots) =>
+                                touchedSpots
+                                    .map(
+                                      (spot) => LineTooltipItem(
+                                        sprintf(S.of(context).amount_format, [
+                                          '${spot.y}',
+                                          currentTrend.unit(context),
+                                        ]),
+                                        TextStyle(
+                                          color: spot.bar.color,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                        getTooltipColor:
+                            (_) =>
+                                Colors.blueGrey.withAlpha((0.8 * 255).round()),
                       ),
                       touchCallback: (touchEvent, touchResponse) {},
                       handleBuiltInTouches: true,
                     ),
-                    gridData: const FlGridData(
-                      show: false,
-                    ),
+                    gridData: const FlGridData(show: false),
                     titlesData: FlTitlesData(
                       show: true,
                       topTitles: const AxisTitles(),
@@ -78,37 +80,29 @@ class _TrendDiagramState extends State<TrendDiagram> {
                         sideTitles: SideTitles(
                           showTitles: true,
                           interval: hourInMs,
-                          getTitlesWidget: (value, meta) => Text(
-                            DateFormat.Hm().format(
-                              DateTime.fromMillisecondsSinceEpoch(
-                                value.toInt(),
+                          getTitlesWidget:
+                              (value, meta) => Text(
+                                DateFormat.Hm().format(
+                                  DateTime.fromMillisecondsSinceEpoch(
+                                    value.toInt(),
+                                  ),
+                                ),
+                                style: const TextStyle(
+                                  color: Colors.blueGrey,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
                               ),
-                            ),
-                            style: const TextStyle(
-                              color: Colors.blueGrey,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
                         ),
                       ),
                     ),
                     borderData: FlBorderData(
                       show: true,
                       border: const Border(
-                        bottom: BorderSide(
-                          color: Colors.indigo,
-                          width: 4,
-                        ),
-                        left: BorderSide(
-                          color: Colors.transparent,
-                        ),
-                        right: BorderSide(
-                          color: Colors.transparent,
-                        ),
-                        top: BorderSide(
-                          color: Colors.transparent,
-                        ),
+                        bottom: BorderSide(color: Colors.indigo, width: 4),
+                        left: BorderSide(color: Colors.transparent),
+                        right: BorderSide(color: Colors.transparent),
+                        top: BorderSide(color: Colors.transparent),
                       ),
                     ),
                     minX: now - dayInMs,
@@ -122,7 +116,7 @@ class _TrendDiagramState extends State<TrendDiagram> {
             ),
           ],
         ),
-      );
+  );
 
   double get now => DateTime.now().millisecondsSinceEpoch.toDouble();
 
@@ -133,9 +127,7 @@ class _TrendDiagramState extends State<TrendDiagram> {
           isCurved: false,
           color: state.powadors[e.key]!.item2,
           isStrokeCapRound: true,
-          belowBarData: BarAreaData(
-            show: false,
-          ),
+          belowBarData: BarAreaData(show: false),
         ),
       )
       .toList(growable: false);

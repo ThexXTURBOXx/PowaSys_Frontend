@@ -132,6 +132,7 @@ linter:
     implicit_call_tearoffs: true
     implicit_reopen: true
     invalid_case_patterns: true
+    invalid_runtime_check_with_js_interop_types: true
     join_return_with_assignment: true
     leading_newlines_in_multiline_strings: true
     library_annotations: true
@@ -160,7 +161,6 @@ linter:
     one_member_abstracts: true
     only_throw_errors: true
     overridden_fields: true
-    package_api_docs: true
     package_names: true
     package_prefixed_library_names: true
     parameter_assignments: true
@@ -206,7 +206,6 @@ linter:
     provide_deprecation_message: true
     public_member_api_docs: false
     recursive_getters: true
-    require_trailing_commas: true
     secure_pubspec_urls: true
     sized_box_for_whitespace: true
     sized_box_shrink_expand: true
@@ -232,6 +231,7 @@ linter:
     unnecessary_lambdas: true
     unnecessary_late: true
     unnecessary_library_directive: true
+    unnecessary_library_name: true
     unnecessary_new: true
     unnecessary_null_aware_assignments: true
     unnecessary_null_aware_operator_on_extension_on_nullable: true
@@ -248,7 +248,6 @@ linter:
     unnecessary_to_list_in_spreads: true
     unreachable_from_main: true
     unrelated_type_equality_checks: true
-    unsafe_html: true
     use_build_context_synchronously: true
     use_colored_box: true
     use_decorated_box: true

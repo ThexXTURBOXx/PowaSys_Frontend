@@ -17,8 +17,9 @@ class Footer extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(20),
-            child:
-                Text(sprintf(S.of(context).copyright, [DateTime.now().year])),
+            child: Text(
+              sprintf(S.of(context).copyright, [DateTime.now().year]),
+            ),
           ),
           Row(
             children: [
@@ -48,11 +49,11 @@ class _FooterItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: TextButton.icon(
-          onPressed: () {},
-          icon: Icon(icon),
-          label: Text(name),
-        ),
-      );
+    padding: const EdgeInsets.symmetric(horizontal: 10),
+    child: TextButton.icon(
+      onPressed: () {},
+      icon: Icon(icon),
+      label: Text(name),
+    ),
+  );
 }

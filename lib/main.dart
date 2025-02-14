@@ -43,38 +43,32 @@ class _PowaSysFrontendWidgetState extends State<PowaSysFrontendWidget> {
 
   @override
   Widget build(BuildContext context) => MultiRepositoryProvider(
-        providers: [
-          RepositoryProvider<DataRepo>(
-            create: (context) => DataRepo(),
-          ),
-        ],
-        child: MultiBlocProvider(
-          providers: [
-            BlocProvider<DataCubit>(
-              create: (context) => DataCubit(context.read<DataRepo>()),
-            ),
-            BlocProvider<ExportCubit>(
-              create: (context) => ExportCubit(context.read<DataRepo>()),
-            ),
-          ],
-          child: MaterialApp(
-            onGenerateTitle: (context) => S.of(context).app_name,
-            debugShowCheckedModeBanner: false,
-            theme: lightTheme,
-            darkTheme: darkTheme,
-            themeMode: themeSettings.currentTheme,
-            localizationsDelegates: const [
-              S.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: S.delegate.supportedLocales,
-            initialRoute: routeHome,
-            routes: {
-              routeHome: (context) => Home(packageInfo),
-            },
-          ),
+    providers: [RepositoryProvider<DataRepo>(create: (context) => DataRepo())],
+    child: MultiBlocProvider(
+      providers: [
+        BlocProvider<DataCubit>(
+          create: (context) => DataCubit(context.read<DataRepo>()),
         ),
-      );
+        BlocProvider<ExportCubit>(
+          create: (context) => ExportCubit(context.read<DataRepo>()),
+        ),
+      ],
+      child: MaterialApp(
+        onGenerateTitle: (context) => S.of(context).app_name,
+        debugShowCheckedModeBanner: false,
+        theme: lightTheme,
+        darkTheme: darkTheme,
+        themeMode: themeSettings.currentTheme,
+        localizationsDelegates: const [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
+        initialRoute: routeHome,
+        routes: {routeHome: (context) => Home(packageInfo)},
+      ),
+    ),
+  );
 }

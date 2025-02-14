@@ -11,7 +11,7 @@ import 'package:web/web.dart';
 
 class ExportCubit extends Cubit<ExportState> {
   ExportCubit(this._dataRepo)
-      : super(const ExportState(ExportGenState.notStarted));
+    : super(const ExportState(ExportGenState.notStarted));
 
   final DataRepo _dataRepo;
 
@@ -19,25 +19,24 @@ class ExportCubit extends Cubit<ExportState> {
     try {
       emit(state.copyWith(state: ExportGenState.exporting));
 
-      final parsed = await _dataRepo.getInterval(
-        start: start,
-        end: end,
-        minDiv: minDiv,
-      ) as List;
+      final parsed =
+          await _dataRepo.getInterval(start: start, end: end, minDiv: minDiv)
+              as List;
 
-      final data = parsed.map((e) {
-        final time = DateTime.parse(e['time'].toString());
-        final powaId = int.parse(e['powadorId'].toString());
-        final values = {
-          for (final t in Trend.values)
-            t: e[t.id] == null ? null : t.parse(e[t.id].toString()),
-        };
-        return Tuple3(time, powaId, values);
-      }).toList(growable: false)
-        ..sort((a, b) {
-          final comp = a.item1.compareTo(b.item1);
-          return comp != 0 ? comp : a.item2.compareTo(b.item2);
-        });
+      final data = parsed
+        .map((e) {
+          final time = DateTime.parse(e['time'].toString());
+          final powaId = int.parse(e['powadorId'].toString());
+          final values = {
+            for (final t in Trend.values)
+              t: e[t.id] == null ? null : t.parse(e[t.id].toString()),
+          };
+          return Tuple3(time, powaId, values);
+        })
+        .toList(growable: false)..sort((a, b) {
+        final comp = a.item1.compareTo(b.item1);
+        return comp != 0 ? comp : a.item2.compareTo(b.item2);
+      });
 
       if (data.isEmpty) {
         emit(
@@ -49,32 +48,28 @@ class ExportCubit extends Cubit<ExportState> {
         return;
       }
 
-      final toExport = '${s.powadorId};${s.time};${s.state};'
+      final toExport =
+          '${s.powadorId};${s.time};${s.state};'
           '${s.genVoltage};${s.genCurrent};${s.genPower};'
           '${s.netVoltage};${s.netCurrent};${s.netPower};'
           '${s.temperature}\n'
-          '${data.map(
-                (e) => "${e.item2};"
-                    "${e.item1};"
-                    "${e.item3[Trend.state]};"
-                    "${decimalFormatOne.format(e.item3[Trend.genVoltage])};"
-                    "${decimalFormatTwo.format(e.item3[Trend.genCurrent])};"
-                    "${e.item3[Trend.genPower]};"
-                    "${decimalFormatOne.format(e.item3[Trend.netVoltage])};"
-                    "${decimalFormatTwo.format(e.item3[Trend.netCurrent])};"
-                    "${e.item3[Trend.netPower]};"
-                    "${e.item3[Trend.temperature]}\n",
-              ).join()}';
+          '${data.map((e) => "${e.item2};"
+          "${e.item1};"
+          "${e.item3[Trend.state]};"
+          "${decimalFormatOne.format(e.item3[Trend.genVoltage])};"
+          "${decimalFormatTwo.format(e.item3[Trend.genCurrent])};"
+          '${e.item3[Trend.genPower]};'
+          '${decimalFormatOne.format(e.item3[Trend.netVoltage])};'
+          '${decimalFormatTwo.format(e.item3[Trend.netCurrent])};'
+          '${e.item3[Trend.netPower]};'
+          '${e.item3[Trend.temperature]}\n').join()}';
 
-      final elem = document.createElement('anchor') as HTMLAnchorElement
-        ..href = 'data:application/octet-stream;charset=utf-16le;base64,'
-            '${base64Encode(toExport.codeUnits)}';
-      emit(
-        state.copyWith(
-          state: ExportGenState.exported,
-          toDownload: elem,
-        ),
-      );
+      final elem =
+          document.createElement('anchor') as HTMLAnchorElement
+            ..href =
+                'data:application/octet-stream;charset=utf-16le;base64,'
+                '${base64Encode(toExport.codeUnits)}';
+      emit(state.copyWith(state: ExportGenState.exported, toDownload: elem));
     } catch (e) {
       emit(state.copyWith(state: ExportGenState.exportError, ex: e));
     }

@@ -76,10 +76,10 @@ enum Trend {
     if (value == null) {
       return '';
     } else {
-      return sprintf(
-        S.of(context).amount_format,
-        [formatNum(context, value), unit(context)],
-      );
+      return sprintf(S.of(context).amount_format, [
+        formatNum(context, value),
+        unit(context),
+      ]);
     }
   }
 }

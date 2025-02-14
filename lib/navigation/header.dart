@@ -17,10 +17,10 @@ class Logo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => TextButton.icon(
-        icon: const Icon(Icons.code),
-        label: Text(S.of(context).app_name),
-        onPressed: () => navigateTo(context, routeHome),
-      );
+    icon: const Icon(Icons.code),
+    label: Text(S.of(context).app_name),
+    onPressed: () => navigateTo(context, routeHome),
+  );
 }
 
 class HomeButton extends StatelessWidget {
@@ -28,10 +28,10 @@ class HomeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => TextButton.icon(
-        icon: const Icon(Icons.home_outlined),
-        label: Text(S.of(context).home),
-        onPressed: () => navigateTo(context, routeHome),
-      );
+    icon: const Icon(Icons.home_outlined),
+    label: Text(S.of(context).home),
+    onPressed: () => navigateTo(context, routeHome),
+  );
 }
 
 class PopMenu extends StatelessWidget {
@@ -42,21 +42,24 @@ class PopMenu extends StatelessWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties
-        .add(DiagnosticsProperty<PackageInfo>('packageInfo', packageInfo));
+    properties.add(
+      DiagnosticsProperty<PackageInfo>('packageInfo', packageInfo),
+    );
   }
 
   @override
   Widget build(BuildContext context) => BlocBuilder<DataCubit, DataState>(
-        builder: (context, stateD) => BlocListener<ExportCubit, ExportState>(
+    builder:
+        (context, stateD) => BlocListener<ExportCubit, ExportState>(
           listener: (context, stateE) {
             if (stateE.state.errored) {
               showDialog(
                 context: context,
-                builder: (context) => AlertDialog(
-                  title: Text(S.of(context).exception),
-                  content: Text(stateE.ex.toString()),
-                ),
+                builder:
+                    (context) => AlertDialog(
+                      title: Text(S.of(context).exception),
+                      content: Text(stateE.ex.toString()),
+                    ),
               );
             } else if (stateE.state.finished) {
               stateE.toDownload!
@@ -68,10 +71,7 @@ class PopMenu extends StatelessWidget {
           child: PopupMenuButton<PopupItems>(
             icon: Icon(
               Icons.more_vert,
-              color: Theme.of(context)
-                  .textButtonTheme
-                  .style!
-                  .foregroundColor!
+              color: Theme.of(context).textButtonTheme.style!.foregroundColor!
                   .resolve({WidgetState.focused}),
             ),
             onSelected: (d) {
@@ -82,34 +82,34 @@ class PopMenu extends StatelessWidget {
                   showAboutDialog(
                     context: context,
                     applicationName: S.of(context).app_name,
-                    applicationLegalese:
-                        sprintf(S.of(context).copyright, [DateTime.now().year]),
+                    applicationLegalese: sprintf(S.of(context).copyright, [
+                      DateTime.now().year,
+                    ]),
                     applicationVersion: packageInfo.version,
                     // TODO(Nico): Icon?
                     /*applicationIcon: Image.asset(
                   'assets/logo.png',
                   width: 50,
                 ),*/
-                    applicationIcon: const Icon(
-                      Icons.code,
-                      size: 50,
-                    ),
+                    applicationIcon: const Icon(Icons.code, size: 50),
                   );
                 case PopupItems.theme:
                   themeSettings.setTheme(isDark: !themeSettings.isDark);
               }
             },
-            itemBuilder: (context) => PopupItems.values
-                .map(
-                  (item) => PopupMenuItem(
-                    value: item,
-                    child: _PopupItem(item.icon, item.name(context)),
-                  ),
-                )
-                .toList(),
+            itemBuilder:
+                (context) =>
+                    PopupItems.values
+                        .map(
+                          (item) => PopupMenuItem(
+                            value: item,
+                            child: _PopupItem(item.icon, item.name(context)),
+                          ),
+                        )
+                        .toList(),
           ),
         ),
-      );
+  );
 }
 
 enum PopupItems {
@@ -149,23 +149,17 @@ class _PopupItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Icon(
-              icon,
-              size: 25,
-              color: Theme.of(context)
-                  .textButtonTheme
-                  .style!
-                  .foregroundColor!
-                  .resolve({WidgetState.focused}),
-            ),
-          ),
-          Text(
-            name,
-            textAlign: TextAlign.left,
-          ),
-        ],
-      );
+    children: [
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Icon(
+          icon,
+          size: 25,
+          color: Theme.of(context).textButtonTheme.style!.foregroundColor!
+              .resolve({WidgetState.focused}),
+        ),
+      ),
+      Text(name, textAlign: TextAlign.left),
+    ],
+  );
 }

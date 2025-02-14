@@ -24,9 +24,7 @@ class DataCubit extends Cubit<DataState> {
       for (final entry in await _dataRepo.getPowas()) {
         powadors[int.parse(entry['powadorId'].toString())] = Tuple2(
           entry['name'].toString(),
-          HexColor.fromHex(
-            entry['color'].toString(),
-          ),
+          HexColor.fromHex(entry['color'].toString()),
         );
       }
 
@@ -37,9 +35,9 @@ class DataCubit extends Cubit<DataState> {
         latest[int.parse(entry['powadorId'].toString())] = Tuple2(
           DateTime.parse(entry['time'].toString()),
           Trend.values.asMap().map(
-                (id, trend) =>
-                    MapEntry(trend, trend.parse(entry[trend.id].toString())),
-              ),
+            (id, trend) =>
+                MapEntry(trend, trend.parse(entry[trend.id].toString())),
+          ),
         );
       }
 
@@ -84,9 +82,9 @@ class DataCubit extends Cubit<DataState> {
           maxVal = value > maxVal ? value : maxVal;
           data[powaId]!.add(
             FlSpot(
-              DateTime.parse(entry['time'].toString())
-                  .millisecondsSinceEpoch
-                  .toDouble(),
+              DateTime.parse(
+                entry['time'].toString(),
+              ).millisecondsSinceEpoch.toDouble(),
               value,
             ),
           );

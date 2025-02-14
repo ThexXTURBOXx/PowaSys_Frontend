@@ -5,10 +5,7 @@ import 'package:tuple/tuple.dart';
 import 'package:web/web.dart';
 
 class BlocState<State> {
-  const BlocState(
-    this.state, {
-    this.ex,
-  });
+  const BlocState(this.state, {this.ex});
 
   final State state;
   final dynamic ex;
@@ -45,18 +42,17 @@ class DataState extends BlocState<DataFetchState> {
     Map<int, Map<Trend, num>>? averages,
     Map<int, Map<Trend, num>>? max,
     Map<int, List<FlSpot>>? data,
-  }) =>
-      DataState(
-        state ?? super.state,
-        ex: ex ?? super.ex,
-        minVal: minVal ?? this.minVal,
-        maxVal: maxVal ?? this.maxVal,
-        powadors: powadors ?? this.powadors,
-        latest: latest ?? this.latest,
-        averages: averages ?? this.averages,
-        max: max ?? this.max,
-        data: data ?? this.data,
-      );
+  }) => DataState(
+    state ?? super.state,
+    ex: ex ?? super.ex,
+    minVal: minVal ?? this.minVal,
+    maxVal: maxVal ?? this.maxVal,
+    powadors: powadors ?? this.powadors,
+    latest: latest ?? this.latest,
+    averages: averages ?? this.averages,
+    max: max ?? this.max,
+    data: data ?? this.data,
+  );
 }
 
 enum DataFetchState {
@@ -65,21 +61,14 @@ enum DataFetchState {
   fetchedData(finished: true),
   fetchError(finished: true, errored: true);
 
-  const DataFetchState({
-    this.finished = false,
-    this.errored = false,
-  });
+  const DataFetchState({this.finished = false, this.errored = false});
 
   final bool finished;
   final bool errored;
 }
 
 class ExportState extends BlocState<ExportGenState> {
-  const ExportState(
-    super.state, {
-    super.ex,
-    this.toDownload,
-  });
+  const ExportState(super.state, {super.ex, this.toDownload});
 
   final HTMLAnchorElement? toDownload;
 
@@ -87,12 +76,11 @@ class ExportState extends BlocState<ExportGenState> {
     ExportGenState? state,
     ex,
     HTMLAnchorElement? toDownload,
-  }) =>
-      ExportState(
-        state ?? super.state,
-        ex: ex ?? super.ex,
-        toDownload: toDownload ?? this.toDownload,
-      );
+  }) => ExportState(
+    state ?? super.state,
+    ex: ex ?? super.ex,
+    toDownload: toDownload ?? this.toDownload,
+  );
 }
 
 enum ExportGenState {
@@ -101,10 +89,7 @@ enum ExportGenState {
   exported(finished: true),
   exportError(finished: true, errored: true);
 
-  const ExportGenState({
-    this.finished = false,
-    this.errored = false,
-  });
+  const ExportGenState({this.finished = false, this.errored = false});
 
   final bool finished;
   final bool errored;

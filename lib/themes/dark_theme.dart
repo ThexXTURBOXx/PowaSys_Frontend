@@ -8,9 +8,7 @@ final ThemeData darkTheme = ThemeData(
     style: ButtonStyle(
       foregroundColor: WidgetStateProperty.all(Colors.white),
       textStyle: WidgetStateProperty.all(
-        const TextStyle(
-          fontWeight: FontWeight.normal,
-        ),
+        const TextStyle(fontWeight: FontWeight.normal),
       ),
     ),
   ),

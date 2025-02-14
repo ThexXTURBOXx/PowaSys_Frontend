@@ -14,7 +14,8 @@ class PowaSettings extends StatefulWidget {
 class _PowaSettingsState extends State<PowaSettings> {
   @override
   Widget build(BuildContext ctx) => BlocBuilder<DataCubit, DataState>(
-        builder: (context, state) => Column(
+    builder:
+        (context, state) => Column(
           children: state.powadors.entries
               .map(
                 (e) => CheckboxListTile(
@@ -28,15 +29,15 @@ class _PowaSettingsState extends State<PowaSettings> {
                         disabledPowadors.add(e.key);
                       }
                       context.read<DataCubit>().fetchData(
-                            disabledPowadors: disabledPowadors,
-                            currentTrend: currentTrend,
-                            minDiv: minDiv,
-                          );
+                        disabledPowadors: disabledPowadors,
+                        currentTrend: currentTrend,
+                        minDiv: minDiv,
+                      );
                     });
                   },
                 ),
               )
               .toList(growable: false),
         ),
-      );
+  );
 }
