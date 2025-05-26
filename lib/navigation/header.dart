@@ -49,66 +49,62 @@ class PopMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocBuilder<DataCubit, DataState>(
-    builder:
-        (context, stateD) => BlocListener<ExportCubit, ExportState>(
-          listener: (context, stateE) {
-            if (stateE.state.errored) {
-              showDialog(
-                context: context,
-                builder:
-                    (context) => AlertDialog(
-                      title: Text(S.of(context).exception),
-                      content: Text(stateE.ex.toString()),
-                    ),
-              );
-            } else if (stateE.state.finished) {
-              stateE.toDownload!
-                ..setAttribute('download', 'export.csv')
-                ..click();
-              stateE = stateE.copyWith(toDownload: null); // Save memory
-            }
-          },
-          child: PopupMenuButton<PopupItems>(
-            icon: Icon(
-              Icons.more_vert,
-              color: Theme.of(context).textButtonTheme.style!.foregroundColor!
-                  .resolve({WidgetState.focused}),
+    builder: (context, stateD) => BlocListener<ExportCubit, ExportState>(
+      listener: (context, stateE) {
+        if (stateE.state.errored) {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text(S.of(context).exception),
+              content: Text(stateE.ex.toString()),
             ),
-            onSelected: (d) {
-              switch (d) {
-                case PopupItems.export:
-                  showExportDialog(context, stateD);
-                case PopupItems.license:
-                  showAboutDialog(
-                    context: context,
-                    applicationName: S.of(context).app_name,
-                    applicationLegalese: sprintf(S.of(context).copyright, [
-                      DateTime.now().year,
-                    ]),
-                    applicationVersion: packageInfo.version,
-                    // TODO(Nico): Icon?
-                    /*applicationIcon: Image.asset(
+          );
+        } else if (stateE.state.finished) {
+          stateE.toDownload!
+            ..setAttribute('download', 'export.csv')
+            ..click();
+          stateE = stateE.copyWith(toDownload: null); // Save memory
+        }
+      },
+      child: PopupMenuButton<PopupItems>(
+        icon: Icon(
+          Icons.more_vert,
+          color: Theme.of(context).textButtonTheme.style!.foregroundColor!
+              .resolve({WidgetState.focused}),
+        ),
+        onSelected: (d) {
+          switch (d) {
+            case PopupItems.export:
+              showExportDialog(context, stateD);
+            case PopupItems.license:
+              showAboutDialog(
+                context: context,
+                applicationName: S.of(context).app_name,
+                applicationLegalese: sprintf(S.of(context).copyright, [
+                  DateTime.now().year,
+                ]),
+                applicationVersion: packageInfo.version,
+                // TODO(Nico): Icon?
+                /*applicationIcon: Image.asset(
                   'assets/logo.png',
                   width: 50,
                 ),*/
-                    applicationIcon: const Icon(Icons.code, size: 50),
-                  );
-                case PopupItems.theme:
-                  themeSettings.setTheme(isDark: !themeSettings.isDark);
-              }
-            },
-            itemBuilder:
-                (context) =>
-                    PopupItems.values
-                        .map(
-                          (item) => PopupMenuItem(
-                            value: item,
-                            child: _PopupItem(item.icon, item.name(context)),
-                          ),
-                        )
-                        .toList(),
-          ),
-        ),
+                applicationIcon: const Icon(Icons.code, size: 50),
+              );
+            case PopupItems.theme:
+              themeSettings.setTheme(isDark: !themeSettings.isDark);
+          }
+        },
+        itemBuilder: (context) => PopupItems.values
+            .map(
+              (item) => PopupMenuItem(
+                value: item,
+                child: _PopupItem(item.icon, item.name(context)),
+              ),
+            )
+            .toList(),
+      ),
+    ),
   );
 }
 

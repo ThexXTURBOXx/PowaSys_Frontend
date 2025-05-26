@@ -56,11 +56,10 @@ class _HomeState extends State<Home> {
         if (state.state.errored) {
           showDialog(
             context: context,
-            builder:
-                (context) => AlertDialog(
-                  title: Text(S.of(context).exception),
-                  content: Text(state.ex.toString()),
-                ),
+            builder: (context) => AlertDialog(
+              title: Text(S.of(context).exception),
+              content: Text(state.ex.toString()),
+            ),
           );
         }
       },

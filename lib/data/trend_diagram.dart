@@ -29,93 +29,86 @@ class _TrendDiagramState extends State<TrendDiagram> {
   @override
   Widget build(BuildContext ctx) => BlocConsumer<DataCubit, DataState>(
     listener: (context, state) => setState(() {}),
-    builder:
-        (context, state) => Column(
-          children: [
-            SizedBox(
-              height: 300,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 16, left: 16),
-                child: LineChart(
-                  LineChartData(
-                    lineTouchData: LineTouchData(
-                      touchTooltipData: LineTouchTooltipData(
-                        getTooltipItems:
-                            (touchedSpots) =>
-                                touchedSpots
-                                    .map(
-                                      (spot) => LineTooltipItem(
-                                        sprintf(S.of(context).amount_format, [
-                                          '${spot.y}',
-                                          currentTrend.unit(context),
-                                        ]),
-                                        TextStyle(
-                                          color: spot.bar.color,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    )
-                                    .toList(),
-                        getTooltipColor:
-                            (_) =>
-                                Colors.blueGrey.withAlpha((0.8 * 255).round()),
-                      ),
-                      touchCallback: (touchEvent, touchResponse) {},
-                      handleBuiltInTouches: true,
+    builder: (context, state) => Column(
+      children: [
+        SizedBox(
+          height: 300,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16, left: 16),
+            child: LineChart(
+              LineChartData(
+                lineTouchData: LineTouchData(
+                  touchTooltipData: LineTouchTooltipData(
+                    getTooltipItems: (touchedSpots) => touchedSpots
+                        .map(
+                          (spot) => LineTooltipItem(
+                            sprintf(S.of(context).amount_format, [
+                              '${spot.y}',
+                              currentTrend.unit(context),
+                            ]),
+                            TextStyle(
+                              color: spot.bar.color,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                        )
+                        .toList(),
+                    getTooltipColor: (_) =>
+                        Colors.blueGrey.withAlpha((0.8 * 255).round()),
+                  ),
+                  touchCallback: (touchEvent, touchResponse) {},
+                  handleBuiltInTouches: true,
+                ),
+                gridData: const FlGridData(show: false),
+                titlesData: FlTitlesData(
+                  show: true,
+                  topTitles: const AxisTitles(),
+                  leftTitles: const AxisTitles(
+                    sideTitles: SideTitles(
+                      // TODO(Nico): Why the fuck does this not work?
+                      showTitles: false,
+                      interval: 100,
                     ),
-                    gridData: const FlGridData(show: false),
-                    titlesData: FlTitlesData(
-                      show: true,
-                      topTitles: const AxisTitles(),
-                      leftTitles: const AxisTitles(
-                        sideTitles: SideTitles(
-                          // TODO(Nico): Why the fuck does this not work?
-                          showTitles: false,
-                          interval: 100,
+                  ),
+                  rightTitles: const AxisTitles(),
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      interval: hourInMs,
+                      getTitlesWidget: (value, meta) => Text(
+                        DateFormat.Hm().format(
+                          DateTime.fromMillisecondsSinceEpoch(value.toInt()),
                         ),
-                      ),
-                      rightTitles: const AxisTitles(),
-                      bottomTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                          showTitles: true,
-                          interval: hourInMs,
-                          getTitlesWidget:
-                              (value, meta) => Text(
-                                DateFormat.Hm().format(
-                                  DateTime.fromMillisecondsSinceEpoch(
-                                    value.toInt(),
-                                  ),
-                                ),
-                                style: const TextStyle(
-                                  color: Colors.blueGrey,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
+                        style: const TextStyle(
+                          color: Colors.blueGrey,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
                         ),
                       ),
                     ),
-                    borderData: FlBorderData(
-                      show: true,
-                      border: const Border(
-                        bottom: BorderSide(color: Colors.indigo, width: 4),
-                        left: BorderSide(color: Colors.transparent),
-                        right: BorderSide(color: Colors.transparent),
-                        top: BorderSide(color: Colors.transparent),
-                      ),
-                    ),
-                    minX: now - dayInMs,
-                    maxX: now,
-                    minY: state.minVal,
-                    maxY: state.maxVal,
-                    lineBarsData: linesBarData(state),
                   ),
                 ),
+                borderData: FlBorderData(
+                  show: true,
+                  border: const Border(
+                    bottom: BorderSide(color: Colors.indigo, width: 4),
+                    left: BorderSide(color: Colors.transparent),
+                    right: BorderSide(color: Colors.transparent),
+                    top: BorderSide(color: Colors.transparent),
+                  ),
+                ),
+                minX: now - dayInMs,
+                maxX: now,
+                minY: state.minVal,
+                maxY: state.maxVal,
+                lineBarsData: linesBarData(state),
               ),
             ),
-          ],
+          ),
         ),
+      ],
+    ),
   );
 
   double get now => DateTime.now().millisecondsSinceEpoch.toDouble();

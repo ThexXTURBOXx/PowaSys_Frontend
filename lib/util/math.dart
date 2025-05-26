@@ -19,28 +19,27 @@ extension DateTimeExtension on DateTime {
     int? millisecond,
     int? microsecond,
     bool? isUtc,
-  }) =>
-      (isUtc ?? this.isUtc)
-          ? DateTime.utc(
-            year ?? this.year,
-            month ?? this.month,
-            day ?? this.day,
-            hour ?? this.hour,
-            minute ?? this.minute,
-            second ?? this.second,
-            millisecond ?? this.millisecond,
-            microsecond ?? this.microsecond,
-          )
-          : DateTime(
-            year ?? this.year,
-            month ?? this.month,
-            day ?? this.day,
-            hour ?? this.hour,
-            minute ?? this.minute,
-            second ?? this.second,
-            millisecond ?? this.millisecond,
-            microsecond ?? this.microsecond,
-          );
+  }) => (isUtc ?? this.isUtc)
+      ? DateTime.utc(
+          year ?? this.year,
+          month ?? this.month,
+          day ?? this.day,
+          hour ?? this.hour,
+          minute ?? this.minute,
+          second ?? this.second,
+          millisecond ?? this.millisecond,
+          microsecond ?? this.microsecond,
+        )
+      : DateTime(
+          year ?? this.year,
+          month ?? this.month,
+          day ?? this.day,
+          hour ?? this.hour,
+          minute ?? this.minute,
+          second ?? this.second,
+          millisecond ?? this.millisecond,
+          microsecond ?? this.microsecond,
+        );
 
   DateTime get atStartOfDay =>
       copyWith(hour: 0, minute: 0, second: 0, millisecond: 0);
