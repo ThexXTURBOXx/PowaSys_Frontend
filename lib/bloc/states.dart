@@ -4,10 +4,10 @@ import 'package:powasys_frontend/data/trend.dart';
 import 'package:tuple/tuple.dart';
 import 'package:web/web.dart';
 
-class BlocState<State> {
+class BlocState<SState> {
   const BlocState(this.state, {this.ex});
 
-  final State state;
+  final SState state;
   final dynamic ex;
 }
 

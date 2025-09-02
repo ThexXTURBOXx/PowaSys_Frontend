@@ -15,28 +15,28 @@ class TrendSettings extends StatefulWidget {
 class _TrendSettingsState extends State<TrendSettings> {
   @override
   Widget build(BuildContext ctx) => BlocBuilder<DataCubit, DataState>(
-    builder: (context, state) => Column(
-      children: Trend.values
-          .map(
-            (t) => RadioListTile<Trend>(
-              title: Text(t.name(context)),
-              value: t,
-              groupValue: currentTrend,
-              onChanged: (value) {
-                setState(() {
-                  if (value != null) {
-                    currentTrend = value;
-                    context.read<DataCubit>().fetchData(
-                      disabledPowadors: disabledPowadors,
-                      currentTrend: currentTrend,
-                      minDiv: minDiv,
-                    );
-                  }
-                });
-              },
-            ),
-          )
-          .toList(growable: false),
+    builder: (context, state) => RadioGroup<Trend>(
+      groupValue: currentTrend,
+      onChanged: (value) {
+        setState(() {
+          if (value != null) {
+            currentTrend = value;
+            context.read<DataCubit>().fetchData(
+              disabledPowadors: disabledPowadors,
+              currentTrend: currentTrend,
+              minDiv: minDiv,
+            );
+          }
+        });
+      },
+      child: Column(
+        children: Trend.values
+            .map(
+              (t) =>
+                  RadioListTile<Trend>(title: Text(t.name(context)), value: t),
+            )
+            .toList(growable: false),
+      ),
     ),
   );
 }

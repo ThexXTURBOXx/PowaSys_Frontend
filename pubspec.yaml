@@ -21,15 +21,15 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.8.1 <4.0.0'
-  flutter: '>=3.32.3'
+  sdk: '>=3.9.0 <4.0.0'
+  flutter: '>=3.35.2'
 
 dependencies:
   fl_chart: ^1.0.0
   flutter:
     sdk: flutter
   flutter_bloc: ^9.0.0
-  flutter_dotenv: ^5.0.2
+  flutter_dotenv: ^6.0.0
   flutter_localizations:
     sdk: flutter
   hive: ^2.0.2
